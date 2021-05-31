@@ -14,3 +14,5 @@ RoxygenNote: 7.1.1
 Imports:
 	htmltools,
 	knitr
+URL: https://github.com/arthurwelle/CodeHover
+BugReports: https://github.com/arthurwelle/CodeHover/issues
