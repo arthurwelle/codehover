@@ -1,0 +1,16 @@
+Package: CodeHover
+Type: Package
+Title: Allow Easy Creation of Hoverable HTML Table Showing Results of Code Steps or Pipes
+Version: 0.0.1
+Author: Arthur Welle
+Maintainer: Arthur Welle <arthurwell@gmail.com>
+Description: Pipes are an excellent way to code for they make it easy to follow the code chain of transformations and theis results. 
+    The CodeHover aims to make it easy to create a HTML table with a simple hover effect (JQuery + CSS) that shows images just bellow this table.
+    This way one could set up lines of code in the table and a series of images showing the intermediary results of the code.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Imports:
+	htmltools,
+	knitr

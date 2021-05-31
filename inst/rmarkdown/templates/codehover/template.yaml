@@ -1,0 +1,4 @@
+name: CodeHover
+description: >
+   Creates a template for CodeHover with its CSS and Javacript dependencies.
+create_dir: TRUE
