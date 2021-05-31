@@ -90,4 +90,12 @@ ch_out <- function(
   return(.data)
 }
 
+# usethis::create_github_token()
+# gitcreds::gitcreds_set()
+# usethis::use_git_config(user.name = "arthurwelle",
+#                         user.email = "arthurwelle@yahoo.com")
+#
+#
+# usethis::use_github()
+
 
