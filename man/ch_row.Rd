@@ -19,6 +19,11 @@ ch_row(.data = "", text = "", img = "", url = FALSE, ...)
 }
 \value{
 The populated HTML table to be passed to the function \code{ch_out}
+
+\dontrun{
+ch_row(text = "Some code-text in a row",
+      img = "./IMG/image1.png")
+}
 }
 \description{
 CodeHover add row to the table and images to be linked to each row

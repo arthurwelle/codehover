@@ -15,6 +15,11 @@ ch_int(type = "incremental", css_class = "", ...)
 }
 \value{
 The beggining of an HTML table to be passed to the function \code{ch_row}
+
+#'\dontrun{
+ch_int(type = "one_row",
+      css_class = "my_custom_table_css_class")
+}
 }
 \description{
 CodeHover initiate Table

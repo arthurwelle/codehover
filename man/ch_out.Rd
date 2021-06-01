@@ -17,6 +17,10 @@ ch_out(.data = "", img_holder = "", img_holder_css_class = "", ...)
 }
 \value{
 A HTML table as string ready to be passed to \code{htmltools::HMTL} and be render in the page.
+
+\dontrun{
+ch_out(img_holder = "./IMG/image1.png")
+}
 }
 \description{
 CodeHover define image holder linked to the table
