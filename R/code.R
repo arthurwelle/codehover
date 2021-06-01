@@ -8,12 +8,11 @@
 #'
 #' @return The beggining of an HTML table to be passed to the function \code{ch_row}
 #'
-#' @export
-#'
 #'#'\dontrun{
 #'ch_int(type = "one_row",
 #'       css_class = "my_custom_table_css_class")
 #'}
+#' @export
 ch_int <- function(
   type = "incremental", # options are "one_row" or "incremental"
   css_class = "", # custom css
@@ -41,12 +40,11 @@ ch_int <- function(
 #'
 #' @return The populated HTML table to be passed to the function \code{ch_out}
 #'
-#' @export
-#'
 #'\dontrun{
 #'ch_row(text = "Some code-text in a row",
 #'       img = "./IMG/image1.png")
 #'}
+#' @export
 ch_row <- function(
   .data = "" ,
   text = "", # text inside the row
@@ -74,11 +72,10 @@ ch_row <- function(
 #'
 #' @return A HTML table as string ready to be passed to \code{htmltools::HMTL} and be render in the page.
 #'
-#' @export
-#'
 #'\dontrun{
 #'ch_out(img_holder = "./IMG/image1.png")
 #'}
+#' @export
 ch_out <- function(
   .data = "" ,
   img_holder = "",
