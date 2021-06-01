@@ -10,7 +10,7 @@ The CodeHover aims to make it easy to create a HTML table with a simple hover ef
 
 This way one could set up pseudo-lines of code (show as text) in the table and a series of images showing the intermediate results of the code with a hovering interaction.
 
-I have to say that I begin with the ideia of the package without knowing about a simillar package based on Xaringan: <a href= "https://github.com/EvaMaeRey/flipbookr">flipbookr</a>. In fact, I guess it was in my subconscious all along, for I follow Gina Reynolds work on twitter for a long time. She made a wonderful job there, way more sophisticated than I even hope to implement here. CodeHover is aimed at an HTML page, with hover. By virtue of this simple differences I will keep the package online (until she implements the same functionality on flipbookr).
+I have to say that I begin with the ideia of the package without knowing about a simillar package based on Xaringan: <a href= "https://github.com/EvaMaeRey/flipbookr">flipbookr</a>. In fact, I guess it was in my subconscious all along, for I follow Gina Reynolds work on twitter for a long time. She made a wonderful job there, way more sophisticated than I even hope to implement here. CodeHover is aimed at a HTML page (through RMarkdwon), with hover. By virtue of this simple differences I will keep the package online (until she implements the same functionality on flipbookr).
 
 ## Installation
 
@@ -20,6 +20,11 @@ You can install the experimental version of CodeHover from github:
 install.packages("devtools")
 devtools::install_github("arthurwelle/CodeHover")
 ```
+
+After installation a new RMarkdown Template shoud be available for you (File -> New File -> R Markdown -> From Template -> CodeHover). You should use it in order to work with CodeHover because it loads the JavaScript/JQuery and the CSS necessary for the task. 
+
+Sometimes after installation the template won't show up in the menu. In this case, restart RStudio, it should come up then.
+
 
 # Workflow example
 
