@@ -1,0 +1,48 @@
+---
+title: "MakeSticker"
+subtitle: ""
+output: 
+  html_document:
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+##install.packages("hexSticker")
+imgurl <- "./code.svg"
+hexSticker::sticker(imgurl, 
+                    package = "CodeHover",
+                    p_fontface = "bold",
+                    p_size = 84, 
+                    s_x = 1, 
+                    s_y = .75, 
+                    s_width = .3,
+                    s_height = .3,
+                    # spotlight = TRUE,
+                    # l_y = .7,
+                    # l_x = 1.2,
+                    h_color = "#FAFF33",
+                    dpi = 1200,
+                    url = "https://github.com/arthurwelle/CodeHover",
+                    u_color = "black",
+                    u_size = 9,
+                    u_y = 0,
+        filename="./HexSticker.png")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
