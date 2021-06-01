@@ -4,13 +4,15 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-Pipes are an excellent way to code for they make it easy to follow the code chain of transformations and their results. 
+Pipes are an excellent way to code. They make it easy to follow the code chain of transformations and their results. 
 
-The CodeHover aims to make it easy to create a HTML table with a simple hover effect (JQuery + CSS) that shows images just bellow the said table.
+The CodeHover aims to make it easy to create a HTML table with a simple hover effect (JavaScript/JQuery + CSS) that shows images just bellow the said table. 
 
-This way one could set up pseudo-lines of code (show as text) in the table and a series of images showing the intermediate results of the code with a hovering interaction.
+This way one could set up pseudo-lines of code (show as text) in the table and a series of images showing the intermediate results of the code with a hovering interaction. 
 
-I have to say that I begin with the ideia of the package without knowing about a simillar package based on Xaringan: <a href= "https://github.com/EvaMaeRey/flipbookr">flipbookr</a>. In fact, I guess it was in my subconscious all along, for I follow Gina Reynolds work on twitter for a long time. She made a wonderful job there, way more sophisticated than I even hope to implement here. CodeHover is aimed at a HTML page (through RMarkdwon), with hover. By virtue of this simple differences I will keep the package online (until she implements the same functionality on flipbookr).
+The package use is educational, a fast way of showing code actions. 
+
+I have to say that I begin with the ideia of the package without knowing about a simillar package based on Xaringan: <a href= "https://github.com/EvaMaeRey/flipbookr">flipbookr</a>. In fact, I guess it was in my subconscious all along, for I follow Gina Reynolds work on twitter for a long time. She made a wonderful job there, way more sophisticated than I even hope to implement here. CodeHover is aimed at a HTML page (through <a href="https://rmarkdown.rstudio.com/">RMarkdown</a>), with hover. By virtue of this simple differences I will keep the package online (until she implements the same functionality on flipbookr).
 
 ## Installation
 
@@ -21,7 +23,7 @@ install.packages("devtools")
 devtools::install_github("arthurwelle/CodeHover")
 ```
 
-After installation a new RMarkdown Template shoud be available for you (File -> New File -> R Markdown -> From Template -> CodeHover). You should use it in order to work with CodeHover because it loads the JavaScript/JQuery and the CSS necessary for the task. 
+After installation a new <a hred="https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html">RMarkdown Template<a> shoud be available for you (File -> New File -> R Markdown -> From Template -> CodeHover). You should use this template in order to work with CodeHover because it loads the JavaScript/JQuery and the CSS necessary for the task. 
 
 Sometimes after installation the template won't show up in the menu. In this case, restart RStudio, it should come up then.
 
@@ -106,12 +108,11 @@ result <- ch_int(type = "incremental") %>%
   
 ```
 
-Finally call the created object into the HTML using htmltool::HMTL().
+Finally call the created object into the HTML using <a href="https://github.com/rstudio/htmltools">htmltool</a>::HMTL().
 
 
 ```{r, echo=TRUE}
 htmltools::HTML(result)
-
 ```
 
 ![](Example.gif) 
@@ -121,7 +122,7 @@ htmltools::HTML(result)
 
 ## Quotes
 
-From <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Quotes.html">Quotes {base}</a> we see than "single quotes are normally only used to delimit character constants containing double quotes". This is the exactlly use here, we have to use single quotes in the R code that we want to pass as text for the HTML table.
+From <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Quotes.html">Quotes</a> we see than "single quotes are normally only used to delimit character constants containing double quotes". This is the exactlly use here, we have to use single quotes in the R code that we want to pass as text for the HTML table.
 
 For exemple, if we want to pass a ggplot2 title we could interchangebly use labs(title = "A Title") or labs(title = 'A Title'), but if we want to pass this as text to CodeHover we should use single quotes. 
 
@@ -147,7 +148,7 @@ ch_row(text = "&lt;tab7>theme_bw()&lt;/tab7>")
 
 # JQuery/Javascript
 
-For reference here is the JS code for the hover.
+For reference here is the JavaScript code for the hover.
 
 
 ``` js
@@ -177,4 +178,4 @@ $('.pipehover_select_one_row tr').hover(function() {
 
 # Reference
 
-The Hex Sticker was made using the r package <a href="https://github.com/GuangchuangYu/hexSticker">hexSticker</a>. 
+The Hex Sticker was made using the R package <a href="https://github.com/GuangchuangYu/hexSticker">hexSticker</a>. 
