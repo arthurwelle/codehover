@@ -79,7 +79,7 @@ codehover has three functions that should be used together in a pipe-like style:
  
 After that you can use multiple ``ch_row`` calls to make as many rows as you like in the HTML table. For every line you should pass a *text* (the pseudo code you want to show) and an image. By default codehover uses <a href="https://yihui.org/knitr/">knitr</a> to encode the image file as a base64 string, with that your final HTML is self-contain in just one file (the images would be inside it). With multiple images this can increase file size considerable, so it´s optional to pass an url (with url = TRUE) if you dont want the behavior of embeding images. This way you can host your images anywhere.
 
-Note that the code use some &lt;tabs> and &amp;nbsp; for indentation of the final text. See more of that bellow.
+Note that the code (the pseudo-code as text) use some &lt;tabs> and &amp;nbsp; for indentation of the final text displayed. See more of that bellow.
 
 Finally you show close the table with the function ``ch_out``. Here you can indicate another image to be show before any hover interaction, as well as to pass another CSS class to the image holder to control its size and placement in the page.
 

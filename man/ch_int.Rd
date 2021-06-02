@@ -13,13 +13,13 @@ ch_int(
 )
 }
 \arguments{
-\item{type}{type of hover effect, options are "one_row" or "incremental", the later highlights every prior row and the row curent hovered. Default is "incremental".}
+\item{type}{(string) Type of hover effect, options are "one_row" or "incremental", the later highlights every prior row and the row curent hovered. Default is "incremental".}
 
-\item{css_class}{Pass a CSS class name here as text to style the whole table.}
+\item{css_class}{(string) Pass a CSS class name here as text to style the whole table.}
 
-\item{table_tag_add}{string aditional html parameter for table tag.}
+\item{table_tag_add}{(string) Aditional html parameter for table tag.}
 
-\item{div_tag_add}{string aditional html parameter for div tag (table container).}
+\item{div_tag_add}{(string) Aditional html parameter for div tag (table container).}
 
 \item{...}{Adicional paramethers}
 }
@@ -27,5 +27,5 @@ ch_int(
 The beggining of an HTML table to be passed to the function \code{ch_row}
 }
 \description{
-codehover initiate Table
+Codehover initiate HTML table. Here you can adjust some HTML-style properties, and choose the type of hover effect.
 }

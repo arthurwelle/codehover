@@ -15,23 +15,23 @@ ch_out(
 )
 }
 \arguments{
-\item{.data}{codehover object (string of text) created by ch_row.}
+\item{.data}{Codehover object (text string) created by ch_row.}
 
-\item{img}{Image to be show in the image holder prior to any hover interaction.If url = TRUE the img should be a url link to a image.}
+\item{img}{(string) Image to be show in the image holder prior to any hover interaction.If url = TRUE the img should be a url link to a image.}
 
-\item{css_class}{Pass a CSS class name here as text to style the image holder.}
+\item{css_class}{(string) Pass a CSS class name here as text to style the image holder.}
 
-\item{url}{Default FALSE, if TRUE indicates that the image is hosted somewhere else and it should not be embeded in the HTML page via base64.}
+\item{url}{(string) Default FALSE, if TRUE indicates that the image is hosted somewhere else and it should not be embeded in the HTML page via base64.}
 
-\item{img_tag_add}{string aditional html parameter for img tag}
+\item{img_tag_add}{(string) Aditional html parameter for img tag}
 
-\item{div_tag_add}{string aditional html parameter for div tag (container)}
+\item{div_tag_add}{(string) Aditional html parameter for div tag (container)}
 
 \item{...}{Adicional paramethers}
 }
 \value{
-A HTML table as string ready to be passed to \code{htmltools::HMTL} and be render in the page.
+A HTML table as string ready to be passed to \code{htmltools::HMTL} and be render as a hoverale table in the page.
 }
 \description{
-codehover define image holder linked to the table
+codehover define image holder linked to the table and controls some HTML atributes of this element.
 }

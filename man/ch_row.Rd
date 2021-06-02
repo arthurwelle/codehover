@@ -2,24 +2,24 @@
 % Please edit documentation in R/CodeHover_functions.R
 \name{ch_row}
 \alias{ch_row}
-\title{codehover add row}
+\title{Codehover add row}
 \usage{
 ch_row(.data = "", text = "", img = "", url = FALSE, ...)
 }
 \arguments{
-\item{.data}{codehover object (string of text) created by ch_int.}
+\item{.data}{Codehover object (text string) created by ch_int.}
 
-\item{text}{Text to be display in the table row.}
+\item{text}{(string) Text to be display inside the table row.}
 
-\item{img}{Path to the image. If url = TRUE the img should be a url link to a image.}
+\item{img}{(string) Path to the image. If url = TRUE the img should be a url link to a image.}
 
-\item{url}{Default FALSE, if TRUE indicates that the image is hosted somewhere else and it should not be embeded in the HTML page via base64.}
+\item{url}{(Boolean) Default FALSE, if TRUE indicates that the image is hosted somewhere else and it should not be embeded in the HTML page via base64.}
 
 \item{...}{Adicional paramethers}
 }
 \value{
-The populated HTML table to be passed to the function \code{ch_out}
+The populated HTML table to be passed to another \code{ch_row} function or to the \code{ch_out} function to finnish the table.
 }
 \description{
-codehover add row to the table and images to be linked to each row
+Codehover add row to the table and images to be linked to each row. You can create multiple lines piping various \code{ch_row}.
 }
