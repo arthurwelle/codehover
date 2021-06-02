@@ -2,7 +2,7 @@
 % Please edit documentation in R/CodeHover_functions.R
 \name{ch_int}
 \alias{ch_int}
-\title{CodeHover initiate Table}
+\title{codehover initiate Table}
 \usage{
 ch_int(
   type = "incremental",
@@ -27,5 +27,5 @@ ch_int(
 The beggining of an HTML table to be passed to the function \code{ch_row}
 }
 \description{
-CodeHover initiate Table
+codehover initiate Table
 }

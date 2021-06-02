@@ -2,7 +2,7 @@
 % Please edit documentation in R/CodeHover_functions.R
 \name{ch_out}
 \alias{ch_out}
-\title{CodeHover output}
+\title{codehover output}
 \usage{
 ch_out(
   .data = "",
@@ -15,7 +15,7 @@ ch_out(
 )
 }
 \arguments{
-\item{.data}{CodeHover object (string of text) created by ch_row.}
+\item{.data}{codehover object (string of text) created by ch_row.}
 
 \item{img}{Image to be show in the image holder prior to any hover interaction.If url = TRUE the img should be a url link to a image.}
 
@@ -33,5 +33,5 @@ ch_out(
 A HTML table as string ready to be passed to \code{htmltools::HMTL} and be render in the page.
 }
 \description{
-CodeHover define image holder linked to the table
+codehover define image holder linked to the table
 }

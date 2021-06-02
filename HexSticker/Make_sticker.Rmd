@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ##install.packages("hexSticker")
 imgurl <- "./code.svg"
 hexSticker::sticker(imgurl, 
-                    package = "CodeHover",
+                    package = "codehover",
                     p_fontface = "bold",
                     p_size = 84, 
                     s_x = 1, 
@@ -27,7 +27,7 @@ hexSticker::sticker(imgurl,
                     # l_x = 1.2,
                     h_color = "#FAFF33",
                     dpi = 1200,
-                    url = "https://github.com/arthurwelle/CodeHover",
+                    url = "https://github.com/arthurwelle/codehover",
                     u_color = "black",
                     u_size = 9,
                     u_y = 0,

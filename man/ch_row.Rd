@@ -2,12 +2,12 @@
 % Please edit documentation in R/CodeHover_functions.R
 \name{ch_row}
 \alias{ch_row}
-\title{CodeHover add row}
+\title{codehover add row}
 \usage{
 ch_row(.data = "", text = "", img = "", url = FALSE, ...)
 }
 \arguments{
-\item{.data}{CodeHover object (string of text) created by ch_int.}
+\item{.data}{codehover object (string of text) created by ch_int.}
 
 \item{text}{Text to be display in the table row.}
 
@@ -21,5 +21,5 @@ ch_row(.data = "", text = "", img = "", url = FALSE, ...)
 The populated HTML table to be passed to the function \code{ch_out}
 }
 \description{
-CodeHover add row to the table and images to be linked to each row
+codehover add row to the table and images to be linked to each row
 }
