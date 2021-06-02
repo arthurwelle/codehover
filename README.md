@@ -105,7 +105,7 @@ result <- ch_int(type = "incremental") %>%
                    img ="./IMG/5b.png") %>% 
           ch_row(text = "<tab1>  theme_bw()</tab1> ",
                    img ="./IMG/6b.png") %>%
-          ch_out(img_holder = "./IMG/1b.png") 
+          ch_out(img = "./IMG/1b.png") 
   
 ```
 

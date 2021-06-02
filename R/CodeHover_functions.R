@@ -22,7 +22,7 @@ ch_int <- function(
 
   if(type == "one_row"){pipe_table_css <- "pipehover_select_one_row"}
 
-  .data <- paste0("<div",div_tag_add,"> <table",table_tag_add,"class = '", pipe_table_css, " ", css_class, "'>")
+  .data <- paste0("<div",div_tag_add,"> <table ",table_tag_add," class = '", pipe_table_css, " ", css_class, "'>")
 
   return(.data)
 }
@@ -84,7 +84,7 @@ ch_out <- function(
   if(url){
     .data <- paste0(.data,  "</table></div><div> <img id = 'img_holder' class='",css_class,"' src='", img, "'/></div>")}else{
       img_base64 <-  htmltools::img(src = knitr::image_uri(img))[["attribs"]][["src"]]
-      .data <- paste0(.data,  "</table></div><div",div_tag_add,"> <img",img_tag_add,"id = 'img_holder' class='",css_class,"' src='", img_base64,"'/></div>")
+      .data <- paste0(.data,  "</table></div><div ",div_tag_add," > <img ",img_tag_add,"id = 'img_holder' class='",css_class,"' src='", img_base64,"'/></div>")
     }
   return(.data)
 }

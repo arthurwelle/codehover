@@ -28,7 +28,7 @@ library(CodeHover)
 In this example we already have saved images for every step in the **IMG** folder
 
 ```{r, echo=TRUE}
-result <- ch_int(type = "incremental", css_class = "teste") %>% 
+result <- ch_int(type = "incremental") %>% 
           ch_row(text = 
                      "ggplot() + 
                       <br> <tab1> geom_point(data = cars, </tab1>
@@ -45,7 +45,7 @@ result <- ch_int(type = "incremental", css_class = "teste") %>%
                    img ="./IMG/5b.png") %>% 
           ch_row(text = "<tab1>  theme_bw()</tab1> ",
                    img ="./IMG/6b.png") %>%
-          ch_out(img_holder = "./IMG/1b.png") 
+          ch_out(img = "./IMG/1b.png") 
   
 ```
 
@@ -53,6 +53,5 @@ result <- ch_int(type = "incremental", css_class = "teste") %>%
 
 ```{r, echo=TRUE}
 htmltools::HTML(result)
-
 ```
 
