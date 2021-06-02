@@ -3,7 +3,7 @@ title: "CodeHover Template"
 autor: "Your Name"
 output: 
   html_document:
-    css: ["CodeHoverStyle.css"]
+    css: ["https://raw.githubusercontent.com/arthurwelle/CodeHover/master/inst/rmarkdown/templates/codehover/skeleton/CodeHoverStyle.css"]
     includes:
       after_body: CodeHoverJavascript.txt
 ---
