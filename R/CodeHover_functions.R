@@ -4,25 +4,25 @@
 #'
 #' @param type type of hover effect, options are "one_row" or "incremental", the later highlights every prior row and the row curent hovered. Default is "incremental".
 #' @param css_class Pass a CSS class name here as text to style the whole table.
+#' @param table_tag_add string aditional html parameter for table tag.
+#' @param div_tag_add string aditional html parameter for div tag (table container).
 #' @param ... Adicional paramethers
 #'
 #' @return The beggining of an HTML table to be passed to the function \code{ch_row}
 #'
-#'#'\dontrun{
-#'ch_int(type = "one_row",
-#'       css_class = "my_custom_table_css_class")
-#'}
 #' @export
 ch_int <- function(
   type = "incremental", # options are "one_row" or "incremental"
   css_class = "", # custom css
+  table_tag_add = "",
+  div_tag_add = "",
   ...) {
 
   pipe_table_css <- "pipehover_incremental"
 
   if(type == "one_row"){pipe_table_css <- "pipehover_select_one_row"}
 
-  .data <- paste0("<div> <table class = '", pipe_table_css, " ", css_class, "'>")
+  .data <- paste0("<div",div_tag_add,"> <table",table_tag_add,"class = '", pipe_table_css, " ", css_class, "'>")
 
   return(.data)
 }
@@ -40,10 +40,6 @@ ch_int <- function(
 #'
 #' @return The populated HTML table to be passed to the function \code{ch_out}
 #'
-#'\dontrun{
-#'ch_row(text = "Some code-text in a row",
-#'       img = "./IMG/image1.png")
-#'}
 #' @export
 ch_row <- function(
   .data = "" ,
@@ -54,8 +50,8 @@ ch_row <- function(
 
   if(url){
     .data <- paste0(.data,  "<tr link='", img, "'><td>",text,"</td></tr> ")}else{
-      v_img <-  htmltools::img(src = knitr::image_uri(img))[["attribs"]][["src"]]
-      .data <- paste0(.data,  "<tr link='", v_img, "'><td>",text,"</td></tr> ")
+      img_base64 <-  htmltools::img(src = knitr::image_uri(img))[["attribs"]][["src"]]
+      .data <- paste0(.data,  "<tr link='", img_base64, "'><td>",text,"</td></tr> ")
     }
   return(.data)
 }
@@ -66,27 +62,32 @@ ch_row <- function(
 #' @description CodeHover define image holder linked to the table
 #'
 #' @param .data CodeHover object (string of text) created by ch_row.
-#' @param img_holder Image to be show in the image holder prior to any hover.
-#' @param img_holder_css_class Pass a CSS class name here as text to style the image holder.
+#' @param img Image to be show in the image holder prior to any hover interaction.If url = TRUE the img should be a url link to a image.
+#' @param css_class Pass a CSS class name here as text to style the image holder.
+#' @param url Default FALSE, if TRUE indicates that the image is hosted somewhere else and it should not be embeded in the HTML page via base64.
+#' @param img_tag_add string aditional html parameter for img tag
+#' @param div_tag_add string aditional html parameter for div tag (container)
 #' @param ... Adicional paramethers
 #'
 #' @return A HTML table as string ready to be passed to \code{htmltools::HMTL} and be render in the page.
 #'
-#'\dontrun{
-#'ch_out(img_holder = "./IMG/image1.png")
-#'}
 #' @export
 ch_out <- function(
   .data = "" ,
-  img_holder = "",
-  img_holder_css_class = "",
+  img = "",
+  css_class = "",
+  url = FALSE,
+  img_tag_add = "",
+  div_tag_add = "",
   ...){
 
-  v_img <-  htmltools::img(src = knitr::image_uri(img_holder))[["attribs"]][["src"]]
-  .data <- paste0(.data,  "</table></div><div> <img id = 'img_holder' class='",img_holder_css_class,"' src='", v_img, "'/></div>")
+  if(url){
+    .data <- paste0(.data,  "</table></div><div> <img id = 'img_holder' class='",css_class,"' src='", img, "'/></div>")}else{
+      img_base64 <-  htmltools::img(src = knitr::image_uri(img))[["attribs"]][["src"]]
+      .data <- paste0(.data,  "</table></div><div",div_tag_add,"> <img",img_tag_add,"id = 'img_holder' class='",css_class,"' src='", img_base64,"'/></div>")
+    }
   return(.data)
 }
-
 
 
 

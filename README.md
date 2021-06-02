@@ -12,7 +12,8 @@ This way one could set up pseudo-lines of code (show as text) in the table and a
 
 The package use is educational, a fast way of showing code actions. 
 
-I have to say that I begin with the ideia of the package without knowing about a simillar package based on <a href= "https://github.com/yihui/xaringan">Xaringan</a>: <a href= "https://github.com/EvaMaeRey/flipbookr">flipbookr</a>. In fact, I guess it was in my subconscious all along, for I follow Gina Reynolds work on <a href= "https://twitter.com/EvaMaeRey">Twitter</a> for a long time. She made a wonderful job there, way more sophisticated than I even hope to implement here. CodeHover is aimed at a HTML page (through <a href="https://rmarkdown.rstudio.com/">RMarkdown</a>), with hover. By virtue of those simple differences I will keep the package online (until she implements the same functionality on flipbookr - granted that she already shows how to embed xaringan presentation into HTML(<a hred="https://evangelinereynolds.netlify.app/post/embedding-flipbook-mini-in-html-document/">here</a>)).
+I have to say that I begin with the ideia of the package without knowing about a simillar package based on <a href= "https://github.com/yihui/xaringan">Xaringan</a>: <a href= "https://github.com/EvaMaeRey/flipbookr">flipbookr</a>. In fact, I guess it was in my subconscious all along, for I follow Gina Reynolds work on <a href= "https://twitter.com/EvaMaeRey">Twitter</a> for a long time. She made a wonderful job there, way more sophisticated than I even hope to implement here. CodeHover is aimed at a HTML page (through <a href="https://rmarkdown.rstudio.com/">RMarkdown</a>), with hover effect
+. By virtue of those simple differences I will keep the package online (until she implements the same functionality on flipbookr - granted that she already shows how to embed xaringan presentation into HTML(<a hred="https://evangelinereynolds.netlify.app/post/embedding-flipbook-mini-in-html-document/">here</a>)).
 
 ## Installation
 
@@ -23,7 +24,7 @@ install.packages("devtools")
 devtools::install_github("arthurwelle/CodeHover")
 ```
 
-After installation a new <a hred="https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html">RMarkdown Template<a> shoud be available for you (File -> New File -> R Markdown -> From Template -> CodeHover). You should use this template in order to work with CodeHover because it loads the JavaScript/JQuery and the CSS necessary for the task. 
+After installation a new <a hred="https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html">RMarkdown Template<a> shoud be available for you (File -> New File -> R Markdown -> From Template -> CodeHover). You should use this RMarkdown template in order to work with CodeHover because it loads the JavaScript/JQuery and the CSS necessary for its tasks. 
 
 Sometimes after installation the template won't show up in the menu. In this case, restart RStudio, it should come up then.
 
@@ -108,7 +109,7 @@ result <- ch_int(type = "incremental") %>%
   
 ```
 
-Finally call the created object into the HTML using <a href="https://github.com/rstudio/htmltools">htmltool</a>::HMTL().
+Finally call the created object into the HTML using <a href="https://github.com/rstudio/htmltools">htmltool::HMTL()</a>.
 
 
 ```{r, echo=TRUE}
@@ -122,24 +123,23 @@ htmltools::HTML(result)
 
 ## Quotes
 
-From <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Quotes.html">Quotes</a> we see than "single quotes are normally only used to delimit character constants containing double quotes". This is the exactlly use here, we have to use single quotes in the R code that we want to pass as text for the HTML table.
+From <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Quotes.html">Quotes</a> we see than "*single quotes are normally only used to delimit character constants containing double quotes*". This is the exactlly use here, we have to use single quotes in the R code that we want to pass as text for the HTML table.
 
 For exemple, if we want to pass a ggplot2 title we could interchangebly use labs(title = "A Title") or labs(title = 'A Title'), but if we want to pass this as text to CodeHover we should use single quotes. 
 
-  ch_row(text = "labs(title = 'A Title')",
-         img ="img.png") %>% 
+  ch_row(text = "labs(title = 'A Title')")
          
 ## Indentation         
 
 You can use the &lt;br> tag to initiate new lines.
 
-And to proper ident your text, as you would like to do to a code, you can use the HTML non-breaking spaces.
+And to proper indent your text, as you would like to do to a code, you can use the HTML non-breaking spaces.
 
 &amp;nbsp; a single non-breaking space;
 
-&amp;ensp; —— it is equal to two &amp;nbsp;
+&amp;ensp; = it is equal to two &amp;nbsp;
 
-&amp;emsp; —— it is equal to four &amp;nbsp;
+&amp;emsp; = it is equal to four &amp;nbsp;
 
 Alternatively the CodeHover CSS has the tags &lt;tab1> to &lt;tab16> to denote 1 to 16 tabs (each tab is 4 spaces). To use it you have to enclose the text in those tags. For example:
 
@@ -148,7 +148,7 @@ ch_row(text = "&lt;tab7>theme_bw()&lt;/tab7>")
 
 # JQuery/Javascript
 
-For reference here is the JavaScript code for the hover.
+For reference here is the JavaScript/JQuery code for the hover effects (incremental and single row).
 
 
 ``` js
@@ -178,4 +178,4 @@ $('.pipehover_select_one_row tr').hover(function() {
 
 # Reference
 
-The Hex Sticker was made using the R package <a href="https://github.com/GuangchuangYu/hexSticker">hexSticker</a>. 
+The CodeHover hex sticker was made using the R package <a href="https://github.com/GuangchuangYu/hexSticker">hexSticker</a>. 
