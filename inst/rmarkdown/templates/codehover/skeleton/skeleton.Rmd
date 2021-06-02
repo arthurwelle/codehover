@@ -1,11 +1,11 @@
 ---
-title: "CodeHover Template"
+title: "Codehover Template"
 autor: "Your Name"
 output: 
   html_document:
-    css: ["CodeHoverStyle.css"]
+    css: ["codehoverStyle.css"]
     includes:
-      after_body: CodeHoverJavascript.txt
+      after_body: codehoverJavascript.txt
 ---
 
 
@@ -18,14 +18,44 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(htmltools)
 library(knitr)
-library(CodeHover)
+library(codehover)
 
 ```
 
+# 1) Let´s create a folder for the images
 
-# 1) Create a table using **ch_int()**, **ch_row()**, and **ch_out()**.
+```{r}
+dir.create("./IMG/")
+```
 
-In this example we already have saved images for every step in the **IMG** folder
+# 2) Create images showing the steps of the code
+
+```{r, warning=FALSE}
+g <- ggplot2::ggplot() +
+  geom_point(data = cars,
+             aes(x = speed, 
+                 y = dist))
+
+ggplot2::ggsave("./IMG/1.png", width = 4, height = 3) 
+
+g <-  g + aes(color = "red")
+ggplot2::ggsave("./IMG/2.png", width = 4, height = 3) 
+
+g <-  g + scale_y_continuous(limits = c(0,100))
+ggplot2::ggsave("./IMG/3.png", width = 4, height = 3) 
+
+g <-  g + labs(title = "A ggplot fot the rest of us")
+ggplot2::ggsave("./IMG/4.png", width = 4, height = 3) 
+
+g <-  g + labs(subtitle = "Testing a way of explicit showing the R workflow")
+ggplot2::ggsave("./IMG/5.png", width = 4, height = 3) 
+
+g <-  g + theme_bw()
+ggplot2::ggsave("./IMG/6.png", width = 4, height = 3) 
+```
+
+# 3) Create a hoveable table using **ch_int()**, **ch_row()**, and **ch_out()**.
+
 
 ```{r, echo=TRUE}
 result <- ch_int(type = "incremental") %>% 
@@ -34,22 +64,21 @@ result <- ch_int(type = "incremental") %>%
                       <br> <tab1> geom_point(data = cars, </tab1>
                       <br> <tab2> aes(x = speed, </tab2>
                       <br> <tab2> &nbsp; &nbsp; y = dist, </tab2>",
-                   img ="./IMG/1b.png") %>% 
+                   img ="./IMG/1.png") %>% 
           ch_row(text = "<tab2> color = 'red')) + </tab2>",
-                   img ="./IMG/2b.png") %>%   
+                   img ="./IMG/2.png") %>%   
           ch_row(text = "<tab1> scale_y_continuous(limits = c(0,100)) + </tab1>",
-                   img ="./IMG/3b.png") %>% 
+                   img ="./IMG/3.png") %>% 
           ch_row(text = "<tab1> labs(title = 'A ggplot fot the rest of us', </tab1>",
-                   img ="./IMG/4b.png") %>%   
+                   img ="./IMG/4.png") %>%   
           ch_row(text = "<tab2> subtitle = 'Testing a way of explicit showing the R workflow') + </tab2>",
-                   img ="./IMG/5b.png") %>% 
+                   img ="./IMG/5.png") %>% 
           ch_row(text = "<tab1>  theme_bw()</tab1> ",
-                   img ="./IMG/6b.png") %>%
-          ch_out(img = "./IMG/1b.png") 
-  
+                   img ="./IMG/6.png") %>%
+          ch_out(img = "./IMG/1.png") 
 ```
 
-# 2) Call the table into the HTML with {htmltools}.
+# 4) Call the table into the HTML with {htmltools}.
 
 ```{r, echo=TRUE}
 htmltools::HTML(result)

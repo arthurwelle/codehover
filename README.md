@@ -26,8 +26,9 @@ devtools::install_github("arthurwelle/codehover")
 
 After installation a new <a hred="https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html">RMarkdown Template<a> shoud be available for you (File -> New File -> R Markdown -> From Template -> codehover). You should use this RMarkdown template in order to work with codehover because it loads the JavaScript/JQuery and the CSS necessary for its tasks. 
 
-Sometimes after installation the template won't show up in the menu. In this case, restart RStudio, it should come up then.
+Most of the times, as happnes with all new templates, after installation the template won't show up in the menu right away. If this is the case, restart RStudio, it should come up then.
 
+Every time you create a new codehover RMarkdown from template a folder will be created with the CSS and JavaScript files inside. They are needed to run the codehover properly, but once you have your final knitted file the CSS and the JavaScript will be attached to the HTML file, thus becoming self-contained. 
 
 # Workflow example
 
