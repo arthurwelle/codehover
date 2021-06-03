@@ -17,7 +17,7 @@ I have to say that I begin with the ideia of the package without knowing about a
 
 ## An example
 
-To be fair this example is not well yet implemented. To make it side by side I manually change the CSS of the whole page. 
+To be fair this example is not well implemented yet. To make it side by side I manually change the CSS of the whole page. 
 
 ![](Example_MAP.gif)  
 
