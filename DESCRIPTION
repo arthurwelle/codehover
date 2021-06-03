@@ -16,3 +16,6 @@ Imports:
 	knitr
 URL: https://github.com/arthurwelle/codehover
 BugReports: https://github.com/arthurwelle/codehover/issues
+VignetteBuilder: knitr
+Suggests: 
+    rmarkdown

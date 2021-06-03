@@ -1,5 +1,26 @@
+---
+title: "Codehover intro"
+output: 
+  html_document:
+    css: ["codehoverStyle.css"]
+    includes:
+      after_body: codehoverJavascript.txt
+---
 
-# codehover <img src="HexSticker/HexSticker.png" align="right" width="250" />
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+suppressPackageStartupMessages(library(tidyverse))
+library(htmltools)
+library(knitr)
+library(codehover)
+```
+
+
+
+# codehover <img src="https://raw.githubusercontent.com/arthurwelle/codehover/master/HexSticker/HexSticker.png" align="right" width="250" />
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -19,7 +40,7 @@ I have to say that I begin with the ideia of the package without knowing about a
 
 You can install the experimental version of codehover from github:
 
-``` r
+```{r,  eval=FALSE}
 install.packages("devtools")
 devtools::install_github("arthurwelle/codehover")
 ```
@@ -32,9 +53,19 @@ Every time you create a new codehover RMarkdown from template a folder will be c
 
 # Workflow example
 
+Load some libraries:
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(htmltools)
+library(knitr)
+library(codehover)
+```
+
+
 Let´s try to replicate the following graph (code and intermediate steps).
 
-```{r, eval=TRUE, echo=TRUE}
+```{r, eval=FALSE, echo=TRUE}
 ggplot() +
   geom_point(data = cars,
              aes(x = speed, 
@@ -49,7 +80,11 @@ ggplot() +
 
 Save every step as an image.
 
-```{r, eval=FALSE, echo=TRUE}
+```{r, eval=TRUE, echo=TRUE}
+# create IMG folted
+dir.create("./IMG/")
+
+
 g <- ggplot2::ggplot() +
   geom_point(data = cars,
              aes(x = speed, 
@@ -117,7 +152,7 @@ Finally call the created object into the HTML using <a href="https://github.com/
 htmltools::HTML(result)
 ```
 
-![](Example.gif) 
+
 
 
 # Writing style (bits and quirks) 
@@ -152,7 +187,7 @@ ch_row(text = "&lt;tab7>theme_bw()&lt;/tab7>")
 For reference here is the JavaScript/JQuery code for the hover effects (incremental and single row).
 
 
-``` js
+```{r, eval=FALSE, as.is=TRUE}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
@@ -180,3 +215,4 @@ $('.pipehover_select_one_row tr').hover(function() {
 # Reference
 
 The codehover hex sticker was made using the R package <a href="https://github.com/GuangchuangYu/hexSticker">hexSticker</a>. 
+

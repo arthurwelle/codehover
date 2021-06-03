@@ -1,0 +1,103 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Testendo se o nome do seu pacote já existe
+
+```{r}
+install.packages("available")
+available::available("CodeHover")
+
+```
+
+# bibliotecas para facilitar criação de pacote
+
+usethis
+devtools
+roxygen2
+
+# Passo a passo
+
+https://www.youtube.com/watch?v=79s3z0gIuFU
+
+https://nceas.github.io/oss-lessons/creating-r-packages/creating-r-packages.html
+
+https://corinnovation.com/2019/04/26/creating-an-r-package/
+
+https://r-pkgs.org/
+
+
+
+1) cria um novo projeto, opção pacote, com versionamento no GIT.
+
+2) altere a função para as funções de interesse
+
+3) altere a descrição do pacote
+
+4) use roxygen2 para criar a documentação para suas funções
+
+  4.1 para isso vá no menu Build -> configure build tools -> Generate documentation with roxygen2
+      
+    Aqui pode ticar todas as opções para ser feito com Roxygen2, inclusive vignette
+    
+    Adicionamente na opção Check package - R CMD-Check adicionar:
+    --as-cran
+    
+    Isso vai fazer ele fazer checagens adicionais na compilação do pacote.
+  
+  4.2 imagino que a documentação default já criada antes, na pasta man possa ser simplesmente deletada
+
+  4.3 para criar documentação via roxygen2, vá para o arquivo de funções, clique em uma funçao que vc quer criar documentação, depois clique no menu "code" -> create roxygen skeleton
+  
+  Ele vai geral algo assim: 
+
+    #' @title CodeHover initiate Table
+    #'
+    #' @description
+    #'
+    #' @param xxx
+    #' @param yyy
+    #' @param zzz
+    #'
+    #' @return
+    #' @export
+    #'
+    #' @examples
+
+  Edite o necessário, salve
+
+5) Build -> clean and rebuild
+
+6) chek it
+
+7) Instala para testar que funcionou
+setwd("..")
+devtools::install("CodeHover")
+
+8) {usethis} use_create README para criar um README em rmarkdown
+
+9) usethis::use_rmarkdown_template("Template Name") para criar Rmarkdown template template (na pasta skeleton vc pode por arquivos adicionais como seu css e javascript)
+
+10) ponha no git
+
+https://usethis.r-lib.org/articles/articles/git-credentials.html
+
+```{r}
+usethis::create_github_token()
+gitcreds::gitcreds_set()
+usethis::use_git_config(user.name = "arthurwelle",
+                        user.email = "arthurwelle@yahoo.com")
+usethis::use_github()
+usethis::use_readme_md()
+usethis::use_build_ignore("Example.gif")
+usethis::edit_r_buildignore()
+
+# create a vignette
+usethis::use_vignette("codehover_intro", "Codehover intro")
+```
+
