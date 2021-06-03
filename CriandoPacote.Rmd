@@ -99,5 +99,7 @@ usethis::edit_r_buildignore()
 
 # create a vignette
 usethis::use_vignette("codehover_intro", "Codehover intro")
+
+pkgdown::build_site()
 ```
 
