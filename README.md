@@ -15,6 +15,13 @@ The package use is educational, a fast way of showing code actions.
 I have to say that I begin with the ideia of the package without knowing about a simillar package based on <a href= "https://github.com/yihui/xaringan">Xaringan</a>: <a href= "https://github.com/EvaMaeRey/flipbookr">flipbookr</a>. In fact, I guess it was in my subconscious all along, for I follow Gina Reynolds work on <a href= "https://twitter.com/EvaMaeRey">Twitter</a> for a long time. She made a wonderful job there, way more sophisticated than I even hope to implement here. codehover is aimed at a HTML page (through <a href="https://rmarkdown.rstudio.com/">RMarkdown</a>), with hover effect
 . By virtue of those simple differences I will keep the package online (until she implements the same functionality on flipbookr - granted that she already shows how to embed xaringan presentation into HTML(<a hred="https://evangelinereynolds.netlify.app/post/embedding-flipbook-mini-in-html-document/">here</a>)).
 
+## An example
+
+To be fair this example is not well yet implemented. To make it side by side I manually change the CSS of the whole page. 
+
+![](Example_MAP.gif)  
+
+
 ## Installation
 
 You can install the experimental version of codehover from github:
