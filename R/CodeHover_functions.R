@@ -22,7 +22,7 @@ ch_int <- function(
 
   if(type == "one_row"){pipe_table_css <- "pipehover_select_one_row"}
 
-  .data <- paste0("<div",div_tag_add,"> <table ",table_tag_add," class = '", pipe_table_css, " ", css_class, "'>")
+  .data <- paste0("<div ",div_tag_add,"> <table ",table_tag_add," class = '", pipe_table_css, " ", css_class, "'>")
 
   return(.data)
 }
