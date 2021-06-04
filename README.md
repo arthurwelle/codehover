@@ -22,6 +22,8 @@ To be fair this example is not well implemented yet. To make it side by side I m
 ![](Example_MAP.gif)  
 
 
+See the <a href="https://arthurwelle.github.io/codehover/articles/codehover_map_example.html">HTML version here</a>.
+
 ## Installation
 
 You can install the experimental version of codehover from github:
@@ -126,6 +128,7 @@ htmltools::HTML(result)
 
 ![](Example.gif) 
 
+See the <a href="https://arthurwelle.github.io/codehover/articles/codehover_intro.html">HTML version here</a>.
 
 # Writing style (bits and quirks) 
 
