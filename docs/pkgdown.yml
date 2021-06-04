@@ -2,7 +2,8 @@ pandoc: 2.11.2
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  codehover_data_wrangling: codehover_data_wrangling.html
   codehover_intro: codehover_intro.html
   codehover_map_example: codehover_map_example.html
-last_built: 2021-06-04T11:28Z
+last_built: 2021-06-04T18:34Z
 

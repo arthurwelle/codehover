@@ -103,5 +103,6 @@ usethis::use_vignette("codehover_intro", "Codehover intro")
 pkgdown::build_site()
 
 usethis::use_vignette("codehover_map_example", "Codehover Ggplot Map Example")
+usethis::use_vignette("codehover_data_wrangling", "Codehover Data Wrangling")
 ```
 

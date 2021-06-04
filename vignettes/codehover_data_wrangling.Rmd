@@ -1,0 +1,269 @@
+---
+title: "Codehover Data Wrangling"
+output: 
+  html_document:
+    css: ["codehoverStyle.css"]
+    includes:
+      after_body: codehoverJavascript.txt
+---
+
+
+
+<!-- --- -->
+<!-- title: "Codehover Data Wrangling" -->
+<!-- output: rmarkdown::html_vignette -->
+<!-- vignette: > -->
+<!--   %\VignetteIndexEntry{Codehover Data Wrangling} -->
+<!--   %\VignetteEngine{knitr::rmarkdown} -->
+<!--   %\VignetteEncoding{UTF-8} -->
+<!-- --- -->
+
+
+
+```{r setup, include=FALSE, warning=FALSE}
+library(codehover)
+library(knitr)
+library(data.table)
+suppressPackageStartupMessages(library(tidyverse))
+#library(magick)
+```
+
+```{r, eval=FALSE, echo=TRUE}
+library(codehover)
+library(htmltools)
+library(data.table)
+library(tidyverse)
+```
+
+
+
+```{r, eval=FALSE, include=FALSE}
+#install.packages("flextable")
+#install.packages("webshot")
+#remotes::install_github("rstudio/webshot2")
+require(flextable)
+require(officer)
+#library(webshot)
+#library(webshot2)
+#webshot::install_phantomjs()
+
+f_save_img <- function(x, text){
+  flextable::save_as_image(x, path = paste0("./IMG/", text, ".png"), webshot = "webshot")
+}
+
+dados <- data.frame(Year = c(rep(c(2000, 2010, 2020),3), 2010),
+                    Country = c(rep("Brazil", 3), rep("India", 3), rep("Russia", 3), "China"),
+                    Continent = c(rep("S.America", 3), rep("Asia", 7)),
+                    GDP = c(655, 2209, 1430, 468, 1676, 2710, 278, 1630, 1470, 6087), 
+                    Pop = c(172, 194, 211, 1060, 1230, 1390, 146, 142, 147, 1338)  )
+
+# schuffle
+dados <- dados[ sample(nrow(dados)), ]
+
+# save
+write.csv2(dados, "./dados.csv", row.names = FALSE)
+
+# reload
+df <- read.csv2("./dados.csv" )
+
+df$Year <- format(df$Year, big.mark = "")  
+
+f_table <- function(data){
+t <- flextable::flextable(data) %>%
+     flextable::font(fontname = "Liberation Serif") %>%
+     flextable::align(align = "center", part = "all") %>%
+     flextable::bg(bg = "white", part = "all") %>% 
+     flextable::border_remove() 
+return(t)
+}
+t <- f_table(df)
+t
+
+#f_save_img(t, "limpo")
+```
+
+
+```{r, eval=FALSE, include=FALSE}
+df %>% 
+  mutate(GDP_PC = GDP / Pop) %>% 
+  mutate(Group_GDP_PC_Level = case_when(GDP_PC < 3 ~ "Low",
+                             GDP_PC >= 3 & GDP_PC < 10 ~ "Medium",
+                             GDP_PC >= 10 ~ "High")) %>% 
+  filter(Country != "China") %>% 
+  group_by(Group_GDP_PC_Level) %>% 
+  summarise(Average_GDP_PC_per_group = mean(GDP_PC))
+```
+
+```{r, eval=FALSE, include=FALSE}
+df %>% as.data.table() %>% 
+  .[, GDP_PC := GDP / Pop] %>% 
+  .[, Group_GDP_PC_Level := fcase(GDP_PC < 3 , "Low",
+                             GDP_PC >= 3 & GDP_PC < 10 , "Medium",
+                             GDP_PC >= 10 , "High")] %>% 
+  .[Country != "China", ] %>% 
+  .[, .(Average_GDP_PC_per_group = mean(GDP_PC)), by = .(Group_GDP_PC_Level) ]
+```
+
+
+
+```{r, eval=FALSE, include=FALSE}
+d <- df %>% 
+  mutate(GDP_PC = GDP / Pop) %>% 
+  mutate(Group_GDP_PC_Level = case_when(GDP_PC < 3 ~ "Low",
+                             GDP_PC >= 3 & GDP_PC < 10 ~ "Medium",
+                             GDP_PC >= 10 ~ "High")) %>% 
+  filter(Country != "China") %>% 
+  group_by(Group_GDP_PC_Level) %>% 
+  summarise(Average_GDP_PC_per_group = mean(GDP_PC)) %>% 
+  f_table(.) %>% 
+  f_save_img(., "t4")
+
+d <- df %>% 
+  mutate(GDP_PC = GDP / Pop) %>% 
+  mutate(Group_GDP_PC_Level = case_when(GDP_PC < 3 ~ "Low",
+                             GDP_PC >= 3 & GDP_PC < 10 ~ "Medium",
+                             GDP_PC >= 10 ~ "High")) %>% 
+  filter(Country != "China") %>% 
+  f_table(.) %>% 
+  f_save_img(., "t3")
+
+d <- df %>% 
+  mutate(GDP_PC = GDP / Pop) %>% 
+  mutate(Group_GDP_PC_Level = case_when(GDP_PC < 3 ~ "Low",
+                             GDP_PC >= 3 & GDP_PC < 10 ~ "Medium",
+                             GDP_PC >= 10 ~ "High")) %>% 
+  f_table(.) %>% 
+  f_save_img(., "t2")
+
+d <- df %>% 
+  mutate(GDP_PC = GDP / Pop) %>% 
+  f_table(.) %>% 
+  f_save_img(., "t1")
+
+d <- df %>% 
+  f_table(.) %>% 
+  f_save_img(., "t0")
+```
+
+
+```{r, eval=FALSE, include=FALSE}
+f_colage_img <- function(img){
+f <- magick::image_blank(1940, 1010, "white")
+d <- magick::image_read(paste0("./IMG/",img,".png"))
+a <- magick::image_mosaic(c(f, d))
+
+magick::image_write(a, 
+                    path = paste0("./IMG/",img,"B.png"), 
+                    format = "png")
+}
+f_colage_img("t0")
+```
+
+```{r, eval=FALSE, include=FALSE}
+l_img <- c("t0","t1","t2","t3","t4")
+lapply(l_img, f_colage_img)
+```
+
+
+
+## tidyerse
+
+```{r, eval=TRUE, echo=FALSE}
+result <- ch_int(type = "incremental") %>% 
+          ch_row(text = "df %>% ",
+                   img ="./IMG/fixed_dimentions/t0B.png") %>%   
+          ch_row(text = "mutate(GDP_PC = GDP / Pop) %>%",
+                   img ="./IMG/fixed_dimentions/t1B.png") %>% 
+          ch_row(text = "mutate(Group_GDP_PC_Level = case_when(GDP_PC < 3 ~ 'Low',
+                            <br><tab3> GDP_PC >= 3 & GDP_PC < 10 ~ 'Medium',<tab3>
+                            <br><tab3>GDP_PC >= 10 ~ 'High')) %>%</tab3>",
+                   img ="./IMG/fixed_dimentions/t2B.png") %>%   
+          ch_row(text = " filter(Country != 'China') %>% ",
+                   img ="./IMG/fixed_dimentions/t3B.png") %>% 
+          ch_row(text = "group_by(Group_GDP_PC_Level) %>%",
+                   img ="./IMG/fixed_dimentions/t4B.png") %>%   
+          ch_row(text = "summarise(Average_GDP_PC_per_group = mean(GDP_PC))",
+                   img ="./IMG/fixed_dimentions/t4B.png") %>% 
+          ch_out(img = "./IMG/fixed_dimentions/t0B.png") 
+```
+
+
+```{r, echo=FALSE}
+htmltools::HTML(result)
+```
+
+
+## data.table
+
+
+```{r, eval=TRUE, echo=FALSE}
+result <- ch_int(type = "incremental") %>% 
+          ch_row(text = "dt %>% ",
+                   img ="./IMG/fixed_dimentions/t0B.png") %>%   
+          ch_row(text = ".[, GDP_PC := GDP / Pop] %>% ",
+                   img ="./IMG/fixed_dimentions/t1B.png") %>% 
+          ch_row(text = ".[, Group_GDP_PC_Level := fcase(GDP_PC < 3 , 'Low',
+                             <br><tab3>GDP_PC >= 3 & GDP_PC < 10 , 'Medium',</tab3>
+                             <br><tab3>GDP_PC >= 10 , 'High')] %>%</tab3>",
+                   img ="./IMG/fixed_dimentions/t2B.png") %>%   
+          ch_row(text = ".[Country != 'China', ] %>% ",
+                   img ="./IMG/fixed_dimentions/t3B.png") %>% 
+          ch_row(text = ".[, .(Average_GDP_PC_per_group = mean(GDP_PC)), by = .(Group_GDP_PC_Level) ]",
+                   img ="./IMG/fixed_dimentions/t4B.png") %>%   
+          ch_out(img = "./IMG/fixed_dimentions/t0B.png") 
+```
+
+```{r, echo=FALSE}
+htmltools::HTML(result)
+```
+
+
+# codehover code to produce the above
+
+## tidyerse
+
+```{r, eval=FALSE, echo=TRUE}
+result <- ch_int(type = "incremental") %>% 
+          ch_row(text = "df %>% ",
+                   img ="./IMG/fixed_dimentions/t0B.png") %>%   
+          ch_row(text = "mutate(GDP_PC = GDP / Pop) %>%",
+                   img ="./IMG/fixed_dimentions/t1B.png") %>% 
+          ch_row(text = "mutate(Group_GDP_PC_Level = case_when(GDP_PC < 3 ~ 'Low',
+                            <br><tab3> GDP_PC >= 3 & GDP_PC < 10 ~ 'Medium',<tab3>
+                            <br><tab3>GDP_PC >= 10 ~ 'High')) %>%</tab3>",
+                   img ="./IMG/fixed_dimentions/t2B.png") %>%   
+          ch_row(text = " filter(Country != 'China') %>% ",
+                   img ="./IMG/fixed_dimentions/t3B.png") %>% 
+          ch_row(text = "group_by(Group_GDP_PC_Level) %>%",
+                   img ="./IMG/fixed_dimentions/t4B.png") %>%   
+          ch_row(text = "summarise(Average_GDP_PC_per_group = mean(GDP_PC))",
+                   img ="./IMG/fixed_dimentions/t4B.png") %>% 
+          ch_out(img = "./IMG/fixed_dimentions/t0B.png") 
+
+htmltools::HTML(result)
+```
+
+
+## data.table
+
+
+```{r, eval=FALSE, echo=TRUE}
+result <- ch_int(type = "incremental") %>% 
+          ch_row(text = "dt %>% ",
+                   img ="./IMG/fixed_dimentions/t0B.png") %>%   
+          ch_row(text = ".[, GDP_PC := GDP / Pop] %>% ",
+                   img ="./IMG/fixed_dimentions/t1B.png") %>% 
+          ch_row(text = ".[, Group_GDP_PC_Level := fcase(GDP_PC < 3 , 'Low',
+                             <br><tab3>GDP_PC >= 3 & GDP_PC < 10 , 'Medium',</tab3>
+                             <br><tab3>GDP_PC >= 10 , 'High')] %>%</tab3>",
+                   img ="./IMG/fixed_dimentions/t2B.png") %>%   
+          ch_row(text = ".[Country != 'China', ] %>% ",
+                   img ="./IMG/fixed_dimentions/t3B.png") %>% 
+          ch_row(text = ".[, .(Average_GDP_PC_per_group = mean(GDP_PC)), by = .(Group_GDP_PC_Level) ]",
+                   img ="./IMG/fixed_dimentions/t4B.png") %>%   
+          ch_out(img = "./IMG/fixed_dimentions/t0B.png") 
+
+htmltools::HTML(result)
+```
+
+
