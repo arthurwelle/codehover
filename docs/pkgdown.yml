@@ -3,5 +3,6 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   codehover_intro: codehover_intro.html
-last_built: 2021-06-03T00:18Z
+  codehover_map_example: codehover_map_example.html
+last_built: 2021-06-04T00:21Z
 
