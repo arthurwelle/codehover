@@ -101,5 +101,7 @@ usethis::edit_r_buildignore()
 usethis::use_vignette("codehover_intro", "Codehover intro")
 
 pkgdown::build_site()
+
+usethis::use_vignette("codehover_map_example", "Codehover Ggplot Map Example")
 ```
 
