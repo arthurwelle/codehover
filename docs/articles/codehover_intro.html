@@ -145,7 +145,6 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create IMG folted</span>
 <span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"./IMG/"</span><span class="op">)</span>
-<span class="co">#&gt; Warning in dir.create("./IMG/"): '.\IMG' já existe</span>
 
 
 <span class="va">g</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -160,24 +159,21 @@
 
 <span class="va">g</span> <span class="op">&lt;-</span>  <span class="va">g</span> <span class="op">+</span> <span class="fu">scale_y_continuous</span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"./IMG/3b.png"</span>, width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span>
 
 <span class="va">g</span> <span class="op">&lt;-</span>  <span class="va">g</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"A ggplot fot the rest of us"</span><span class="op">)</span>
 <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"./IMG/4b.png"</span>, width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span>
 
 <span class="va">g</span> <span class="op">&lt;-</span>  <span class="va">g</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Testing a way of explicit showing the R workflow"</span><span class="op">)</span>
 <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"./IMG/5b.png"</span>, width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span>
 
 <span class="va">g</span> <span class="op">&lt;-</span>  <span class="va">g</span> <span class="op">+</span> <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span>
 <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"./IMG/6b.png"</span>, width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> 
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre></div>
+
 <p>codehover has three functions that should be used together in a pipe-like style: <code><a href="../reference/ch_int.html">ch_int()</a></code>, <code><a href="../reference/ch_row.html">ch_row()</a></code>, and <code><a href="../reference/ch_out.html">ch_out()</a></code>.</p>
 <p><code><a href="../reference/ch_int.html">ch_int()</a></code> initiates the HTML table, one can choose if the hover effect will be incremental or for a single row of the table. You can pass a custom CSS class for the whole table here as well.</p>
 <p>After that you can use multiple <code>ch_row</code> calls to make as many rows as you like in the HTML table. For every line you should pass a <em>text</em> (the pseudo code you want to show) and an image. By default codehover uses <a href="https://yihui.org/knitr/">knitr</a> to encode the image file as a base64 string, with that your final HTML is self-contain in just one file (the images would be inside it). With multiple images this can increase file size considerable, so it´s optional to pass an url (with url = TRUE) if you dont want the behavior of embeding images. This way you can host your images anywhere.</p>
 <p>Note that the code (the pseudo-code as text) use some &lt;tabs&gt; and &amp;nbsp; for indentation of the final text displayed. See more of that bellow.</p>
-<p>Finally you show close the table with the function <code>ch_out</code>. Here you can indicate another image to be show before any hover interaction, as well as to pass another CSS class to the image holder to control its size and placement in the page.</p>
+<p>Finally you should close the table with the function <code>ch_out</code>. Here you can indicate another image to be show before any hover interaction, as well as to pass another CSS class to the image holder to control its size and placement in the page.</p>
 <p>With these three codehover functions you create an object (in fact just a text string) that <code>htmltool::HMTL()</code> function can inject in the HTML page.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -233,8 +229,8 @@
 <p>You can use the &lt;br&gt; tag to initiate new lines.</p>
 <p>And to proper indent your text, as you would like to do to a code, you can use the HTML non-breaking spaces.</p>
 <p>&amp;nbsp; a single non-breaking space;</p>
-<p>&amp;ensp; = it is equal to two &amp;nbsp;</p>
-<p>&amp;emsp; = it is equal to four &amp;nbsp;</p>
+<p>&amp;ensp; is equal to two &amp;nbsp;</p>
+<p>&amp;emsp; is equal to four &amp;nbsp;</p>
 <p>Alternatively the codehover CSS has the tags &lt;tab1&gt; to &lt;tab16&gt; to denote 1 to 16 tabs (each tab is 4 spaces). To use it you have to enclose the text in those tags. For example:</p>
 <p>ch_row(text = “&lt;tab7&gt;theme_bw()&lt;/tab7&gt;”)</p>
 </div>
