@@ -91,7 +91,7 @@ After that you can use multiple ``ch_row`` calls to make as many rows as you lik
 
 Note that the code (the pseudo-code as text) use some &lt;tabs> and &amp;nbsp; for indentation of the final text displayed. See more of that bellow.
 
-Finally you show close the table with the function ``ch_out``. Here you can indicate another image to be show before any hover interaction, as well as to pass another CSS class to the image holder to control its size and placement in the page.
+Finally you should close the table with the function ``ch_out``. Here you can indicate another image to be show before any hover interaction, as well as to pass another CSS class to the image holder to control its size and placement in the page.
 
 With these three codehover functions you create an object (in fact just a text string) that ``htmltool::HMTL()`` function can inject in the HTML page. 
 
@@ -134,7 +134,7 @@ See the <a href="https://arthurwelle.github.io/codehover/articles/codehover_intr
 
 ## Quotes
 
-From <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Quotes.html">Quotes</a> we see than "*single quotes are normally only used to delimit character constants containing double quotes*". This is the exactlly use here, we have to use single quotes in the R code that we want to pass as text for the HTML table.
+From <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Quotes.html">Quotes</a> we see that "*single quotes are normally only used to delimit character constants containing double quotes*". This is the exactlly use here, we have to use single quotes in the R code that we want to pass as text for the HTML table.
 
 For exemple, if we want to pass a ggplot2 title we could interchangebly use labs(title = "A Title") or labs(title = 'A Title'), but if we want to pass this as text to codehover we should use single quotes. 
 
@@ -148,9 +148,9 @@ And to proper indent your text, as you would like to do to a code, you can use t
 
 &amp;nbsp; a single non-breaking space;
 
-&amp;ensp; = it is equal to two &amp;nbsp;
+&amp;ensp; is equal to two &amp;nbsp;
 
-&amp;emsp; = it is equal to four &amp;nbsp;
+&amp;emsp; is equal to four &amp;nbsp;
 
 Alternatively the codehover CSS has the tags &lt;tab1> to &lt;tab16> to denote 1 to 16 tabs (each tab is 4 spaces). To use it you have to enclose the text in those tags. For example:
 
