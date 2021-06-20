@@ -1,0 +1,207 @@
+---
+title: "Codehover Template"
+autor: "Your Name"
+output: 
+  html_document:
+    css: ["codehoverStyle.css"]
+    includes:
+      after_body: codehoverJavascript.txt
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+
+```{r, include=FALSE}
+library(codehover)
+library(tidyverse)
+library(htmltools)
+library(knitr)
+library(codehover)
+```
+
+# a full plot
+
+```{r a_plot, eval=TRUE, echo=TRUE}
+ggplot(data = cars) +
+  aes(x = speed) +  
+  aes(y = dist) + 
+  geom_point(color = 'darkred',
+             size = 4,
+             alpha = .8) +
+  scale_x_continuous(limits = c(0,25)) +
+  geom_smooth() +
+  labs(y = "stopping distance") + 
+  labs(title = 'A ggplot fot the rest of us') + 
+  labs(subtitle = 'Testing a way of explicit showing the R workflow') +
+  theme_bw() + 
+  theme(plot.title.position = "plot")
+```
+
+# partial code as list
+
+```{r the_partial_builds}
+flipbookr:::chunk_name_return_code_sequence("a_plot") ->
+  partial_code_list
+
+partial_code_ch_format <- function(partial_code_list, which){
+  
+partial_code_list[[which]] %>% 
+    .[str_detect(. ,".+#<<")] %>% 
+    str_replace("#<<", "") %>% 
+    str_replace("^    ", "<tab2>") %>% 
+    str_replace("^  ", "<tab1>") %>% 
+    paste0(collapse = "<br>") ->
+out
+  
+if(length(partial_code_list) != which) {
+  
+  out %>% 
+    paste(., "+") ->
+  out
+} 
+  
+out
+  
+}
+```
+
+# partial code vector, saving plots
+
+```{r the_figures, code = flipbookr:::chunk_code_seq_as_vector("a_plot"), fig.path="docs/", fig.show='hide', echo = F}
+```
+
+# matching code and output
+
+https://yjunechoe.github.io/posts/2020-12-13-collapse-repetitive-piping-with-reduce/
+
+
+```{r}
+"ggplot() +
+                      <br> <tab1> geom_point(data = cars, </tab1>
+                      <br> <tab2> aes(x = speed, </tab2>
+                      <br> <tab2> &nbsp; &nbsp; y = dist), </tab2>"
+
+
+library(magrittr)
+library(codehover)
+result <- ch_int(type = "incremental") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 1),
+                   img ="./docs/the_figures-1.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 2),
+                   img ="./docs/the_figures-2.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 3),
+                   img ="./docs/the_figures-3.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 4),
+                   img ="./docs/the_figures-4.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 5),
+                   img = "./docs/the_figures-5.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 6),
+                   img ="./docs/the_figures-6.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 7),
+                   img ="./docs/the_figures-7.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 8),
+                   img ="./docs/the_figures-8.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 9),
+                   img = "./docs/the_figures-9.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 10),
+                   img = "./docs/the_figures-10.png") %>%
+          ch_row(text = partial_code_ch_format(partial_code_list, 11),
+                   img = "./docs/the_figures-11.png") %>%
+          ch_out(img = "./docs/the_figures-11.png")
+
+```
+
+
+# 4) Call the table into the HTML with {htmltools}.
+
+```{r, echo=TRUE}
+htmltools::HTML(result)
+```
+
+
+
+```{r}
+purrr::reduce(.x = c(1:11), 
+              .f = ~ .x %>% ch_row(text = partial_code_ch_format(partial_code_list, .y),
+                   img = paste0("./docs/the_figures-", .y, ".png")),
+  .init = ch_int(type = "incremental") 
+)  %>%
+          ch_out(img = "./docs/the_figures-11.png") ->
+a_reduction
+```
+
+
+
+```{r}
+partial_code_ch_int_reduce <- function(partial_code_list, fig_path_and_prefix){
+  
+  purrr::reduce(.x = c(1:length(partial_code_list)), 
+              .f = ~ .x %>% ch_row(text = partial_code_ch_format(partial_code_list, .y),
+                   img = paste0(fig_path_and_prefix, .y, ".png")),
+  .init = ch_int(type = "incremental") 
+)  %>%
+          ch_out(img = paste0(fig_path_and_prefix, length(partial_code_list), ".png"))
+  
+  
+}
+
+partial_code_ch_int_reduce(partial_code_list = partial_code_list, fig_path_and_prefix = "./docs/the_figures-") -> 
+  results_w_reduce
+```
+
+
+
+```{r, echo=TRUE}
+htmltools::HTML(results_w_reduce)
+```
+
+
+
+---
+
+# Starting fresh
+
+
+## this is the plot code we want to show
+
+```{r sleep, eval = F}
+ggplot(data = datasets::sleep) +
+  aes(extra) +
+  geom_rug() + 
+  geom_histogram(alpha = .8) + 
+  facet_grid(rows = vars(group)) +
+  aes(fill = group) + 
+  aes(color = group) + 
+  labs(title = "sleep change based on treatement 1 or 2")
+```
+
+## We create the plots here
+
+```{r the_sleep, code = flipbookr:::chunk_code_seq_as_vector("sleep"), fig.path="sleep/", fig.show='hide', echo = F, message = F}
+```
+
+## We write the code sequence
+
+```{r}
+flipbookr:::chunk_name_return_code_sequence("sleep") ->
+  sleep_code_seq
+```
+
+## We prepare the html table and plot coordination
+
+```{r}
+partial_code_ch_int_reduce(sleep_code_seq, fig_path_and_prefix = "sleep/the_sleep-" ) ->
+  results_sleep
+```
+
+## Then embed in html
+
+```{r, echo=TRUE}
+htmltools::HTML(results_sleep)
+```
+
+
+
