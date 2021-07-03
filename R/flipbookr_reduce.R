@@ -12,10 +12,10 @@
 partial_code_ch_format <- function(partial_code_list, which){
 
   partial_code_list[[which]] %>%
-    .[str_detect(. ,".+#<<")] %>%
-    str_replace("#<<", "") %>%
-    str_replace("^    ", "<tab2>") %>%
-    str_replace("^  ", "<tab1>") %>%
+    .[stringr::str_detect(. ,".+#<<")] %>%
+    stringr::str_replace("#<<", "") %>%
+    stringr::str_replace("^    ", "<tab2>") %>%
+    stringr::str_replace("^  ", "<tab1>") %>%
     paste0(collapse = "<br>") ->
     out
 
@@ -57,8 +57,8 @@ partial_code_ch_int_reduce <- function(partial_code_list, fig_path_and_prefix){
 #' refer to chunk that only has graphical output at every pause point
 #' Build code hover, figures must be built separately at this point
 #'
-#' @param chunk_name
-#' @param fig_path_and_prefix
+#' @param chunk_name refer to a code chunk by name
+#' @param fig_path_and_prefix paths to figures (png), minus numbering and extensions ".png"
 #'
 #' @return
 #' @export

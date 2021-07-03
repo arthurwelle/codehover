@@ -8,7 +8,9 @@ Build code hover, figures must be built separately at this point}
 chunk_code_hover(chunk_name, fig_path_and_prefix)
 }
 \arguments{
-\item{fig_path_and_prefix}{}
+\item{chunk_name}{refer to a code chunk by name}
+
+\item{fig_path_and_prefix}{paths to figures (png), minus numbering and extensions ".png"}
 }
 \value{
 
