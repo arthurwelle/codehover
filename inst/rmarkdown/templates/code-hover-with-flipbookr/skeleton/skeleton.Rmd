@@ -84,7 +84,6 @@ https://yjunechoe.github.io/posts/2020-12-13-collapse-repetitive-piping-with-red
                       <br> <tab2> aes(x = speed, </tab2>
                       <br> <tab2> &nbsp; &nbsp; y = dist), </tab2>"
 
-
 library(magrittr)
 library(codehover)
 result <- ch_int(type = "incremental") %>%
@@ -139,12 +138,13 @@ a_reduction
 partial_code_ch_int_reduce <- function(partial_code_list, fig_path_and_prefix){
   
   purrr::reduce(.x = c(1:length(partial_code_list)), 
-              .f = ~ .x %>% ch_row(text = partial_code_ch_format(partial_code_list, .y),
+              .f = ~ .x %>% 
+                ch_row(text = partial_code_ch_format(partial_code_list, .y),
                    img = paste0(fig_path_and_prefix, .y, ".png")),
   .init = ch_int(type = "incremental") 
 )  %>%
-          ch_out(img = paste0(fig_path_and_prefix, length(partial_code_list), ".png"))
-  
+          ch_out(img = paste0(fig_path_and_prefix, 
+                              length(partial_code_list), ".png"))
   
 }
 
@@ -193,7 +193,8 @@ flipbookr:::chunk_name_return_code_sequence("sleep") ->
 ## We prepare the html table and plot coordination
 
 ```{r}
-partial_code_ch_int_reduce(sleep_code_seq, fig_path_and_prefix = "sleep/the_sleep-" ) ->
+partial_code_ch_int_reduce(sleep_code_seq, 
+                           fig_path_and_prefix = "sleep/the_sleep-" ) ->
   results_sleep
 ```
 
