@@ -1,0 +1,58 @@
+---
+title: "Codehover Template"
+autor: "Your Name"
+output: 
+  html_document:
+    css: ["codehoverStyle.css"]
+    includes:
+      after_body: codehoverJavascript.txt
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+
+```{r, include=FALSE}
+library(codehover)
+library(tidyverse)
+library(htmltools)
+library(knitr)
+library(codehover)
+```
+
+```{r my_cars, eval=FALSE, echo=FALSE}
+ggplot(data = cars) +
+  aes(x = speed) +  
+  aes(y = dist) + 
+  geom_point(color = 'darkred',
+             size = 4,
+             alpha = .8) +
+  scale_x_continuous(limits = c(0,25)) +
+  geom_smooth() +
+  labs(y = "stopping distance") + 
+  labs(title = 'A ggplot for the rest of us') + 
+  labs(subtitle = 'Testing a way of explicit showing the R workflow') +
+  theme_bw() + 
+  theme(plot.title.position = "plot")
+```
+
+
+
+## Reveal w code hover! Yay!
+
+### First create assets - one plot output per pause point 
+
+This is probably something to come back to... we let knitr do all the work for us.
+
+```{r the_cars, code = flipbookr:::chunk_code_seq_as_vector("my_cars"), fig.path="cars_fig/", fig.show='hide', echo = F, message = F}
+```
+
+### Require the coordinated display!
+
+```{r}
+chunk_code_hover("my_cars", fig_path_and_prefix = "cars_fig/the_cars-")
+```
+
+

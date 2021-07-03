@@ -3,3 +3,5 @@
 export(ch_int)
 export(ch_out)
 export(ch_row)
+export(chunk_code_hover)
+export(partial_code_ch_int_reduce)
