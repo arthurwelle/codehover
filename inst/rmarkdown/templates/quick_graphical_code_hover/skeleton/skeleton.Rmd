@@ -28,7 +28,7 @@ ggplot(data = cars) +
   geom_smooth() +
   labs(y = "stopping distance") + 
   labs(title = 'A ggplot for the rest of us') + 
-  labs(subtitle = 'Explicitly showing the R workflow') +
+  labs(subtitle = 'Explicitly showing the R workflow...') +
   theme(plot.title.position = "plot")
 ```
 
