@@ -1,18 +1,18 @@
 table {
-  cursor: pointer; 
+  cursor: pointer;
   cursor: hand;
   border: none;
   margin-left: auto;
   margin-right: auto;
   width:"80%";
-  border:"0"; 
-  cellspacing:"0"; 
+  border:"0";
+  cellspacing:"0";
   cellpadding:"0";
   font-family: "Lucida Console";
 }
 
 .hover {
-  background-color: #F1D95A;
+  background-color: #DCD0FF;
 }
 
 .image-crop {

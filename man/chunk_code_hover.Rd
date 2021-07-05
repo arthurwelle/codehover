@@ -5,7 +5,12 @@
 \title{refer to chunk that only has graphical output at every pause point
 Build code hover, figures must be built separately at this point}
 \usage{
-chunk_code_hover(chunk_name, fig_path_and_prefix)
+chunk_code_hover(
+  chunk_name,
+  fig.path = paste0("assets_ch_", chunk_name, "/"),
+  fig_prefix = "figure",
+  fig_path_and_prefix = past0(fig.path, fig_prefix)
+)
 }
 \arguments{
 \item{chunk_name}{refer to a code chunk by name}
