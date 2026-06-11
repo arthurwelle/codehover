@@ -136,10 +136,18 @@ ch_resolve_code <- function(code_value, code_sub) {
   if (!is.null(src)) {
     # for a braced block the first srcref is the "{" token itself: drop it
     if (is_brace) src <- src[-1]
-    return(unlist(lapply(src, as.character), use.names = FALSE))
+    candidate <- unlist(lapply(src, as.character), use.names = FALSE)
+    # Validate: knitr's srcref column positions can be off (e.g. last_col
+    # lands on an opening `"` instead of past the closing one, yielding an
+    # INCOMPLETE_STRING error).  A dry parse catches that cheaply.
+    ok <- tryCatch({
+      parse(text = paste(candidate, collapse = "\n"))
+      TRUE
+    }, error = function(e) FALSE)
+    if (ok) return(candidate)
   }
 
-  # no source available: rebuild lines from the call tree
+  # no source available (or srcref produced invalid code): rebuild from call tree
   ch_expr_to_lines(code_sub)
 }
 
