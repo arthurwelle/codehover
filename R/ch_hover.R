@@ -210,6 +210,11 @@ ch_render_steps <- function(plots, fixed_scales, width, height, dpi,
       } else {
         print(d)
       }
+    }, error = function(e) {
+      # A step may legitimately fail on its own (e.g. after_stat() in the
+      # global aes when no geom has been added yet).  Draw a blank page so
+      # the table still renders; the image for that row will be empty.
+      grid::grid.newpage()
     }, finally = grDevices::dev.off())
   }
 
