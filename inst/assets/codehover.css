@@ -23,6 +23,25 @@
   height: auto;
 }
 
+/* layout = "row": force side by side, image shrinks if needed */
+.codehover.codehover-layout-row {
+  flex-wrap: nowrap;
+}
+
+.codehover.codehover-layout-row .codehover-img {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* layout = "column": force image below the code */
+.codehover.codehover-layout-column {
+  flex-direction: column;
+}
+
+.codehover.codehover-layout-column .codehover-img {
+  flex: 0 0 auto;
+}
+
 .codehover table {
   cursor: pointer;
   border: none;

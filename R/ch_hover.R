@@ -10,6 +10,11 @@
 #'   in the example below, or a character string/vector of code lines.
 #' @param type (string) Hover effect: "incremental" (highlights the hovered
 #'   row and every prior row) or "one_row". Default "incremental".
+#' @param layout (string) Placement of the image relative to the code table:
+#'   "auto" (default) puts them side by side when there is room and wraps
+#'   the image below otherwise (responsive); "row" forces side by side,
+#'   shrinking the image if needed; "column" forces the image below the
+#'   code.
 #' @param fixed_scales (logical) Default FALSE: each step shows the true
 #'   output of its partial code, so axes and legends may change between
 #'   steps. TRUE pins scales, axes and panel layout from the final plot so
@@ -43,6 +48,7 @@
 #' @export
 ch_hover <- function(code,
                      type = "incremental",
+                     layout = "auto",
                      fixed_scales = FALSE,
                      width = 7,
                      height = 5,
@@ -64,7 +70,7 @@ ch_hover <- function(code,
 
   use_url <- !is.null(path)
 
-  html <- ch_int(type = type, css_class = css_class)
+  html <- ch_int(type = type, layout = layout, css_class = css_class)
   for (i in seq_along(steps)) {
     html <- ch_row(html, text = ch_format_step(steps[[i]]$lines),
                    img = imgs[i], url = use_url)
@@ -120,7 +126,8 @@ ch_resolve_code <- function(code_value, code_sub) {
     if (is.character(code_value)) {
       return(unlist(strsplit(code_value, "\n"), use.names = FALSE))
     }
-    stop("Pass the plot code inside braces, e.g. ch_hover({ ggplot(...) + ... }), ",
+    stop("Pass the plot code inside braces, ",
+         "e.g. ch_hover({ ggplot(...) + ... }), ",
          "or as a character string.", call. = FALSE)
   }
 

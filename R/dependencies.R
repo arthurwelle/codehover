@@ -11,7 +11,7 @@
 ch_dependency <- function() {
   htmltools::htmlDependency(
     name = "codehover",
-    version = "2.0.0",
+    version = "1.0.0",
     src = c(file = system.file("assets", package = "codehover")),
     stylesheet = "codehover.css",
     script = "codehover.js"

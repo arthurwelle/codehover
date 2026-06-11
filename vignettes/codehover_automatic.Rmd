@@ -13,7 +13,7 @@ library(ggplot2)
 library(codehover)
 ```
 
-Since version 2.0.0, `ch_hover()` is the main entry point of codehover.
+Since version 1.0.0, `ch_hover()` is the main entry point of codehover.
 Give it ggplot code and it:
 
 1. splits the code at every top-level `+`;
@@ -66,6 +66,24 @@ ggplot(mtcars, aes(x = factor(cyl))) +
 ```
 
 `r ch_hover_chunk("mybar", width = 4, height = 3)`
+
+# Layout
+
+By default (`layout = "auto"`) the image sits beside the code table when
+there is enough horizontal room and wraps below it otherwise — so wide
+code tables (long lines, deep indentation) push the image down, while
+narrow ones keep it at their side. To take control:
+
+* `layout = "row"` forces side by side; the image shrinks to fit.
+* `layout = "column"` forces the image below the code.
+
+```{r, echo=TRUE}
+ch_hover({
+  ggplot(cars, aes(speed, dist)) +
+    geom_point() +
+    theme_minimal()
+}, layout = "column", width = 4, height = 3)
+```
 
 # Other options
 

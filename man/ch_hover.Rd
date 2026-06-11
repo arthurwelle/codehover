@@ -7,6 +7,7 @@
 ch_hover(
   code,
   type = "incremental",
+  layout = "auto",
   fixed_scales = FALSE,
   width = 7,
   height = 5,
@@ -23,6 +24,12 @@ in the example below, or a character string/vector of code lines.}
 
 \item{type}{(string) Hover effect: "incremental" (highlights the hovered
 row and every prior row) or "one_row". Default "incremental".}
+
+\item{layout}{(string) Placement of the image relative to the code table:
+"auto" (default) puts them side by side when there is room and wraps
+the image below otherwise (responsive); "row" forces side by side,
+shrinking the image if needed; "column" forces the image below the
+code.}
 
 \item{fixed_scales}{(logical) Default FALSE: each step shows the true
 output of its partial code, so axes and legends may change between

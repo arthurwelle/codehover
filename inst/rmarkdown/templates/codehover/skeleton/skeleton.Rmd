@@ -42,6 +42,9 @@ ggplot(cars, aes(x = speed, y = dist)) +
 
 # Useful options
 
+* `layout = "auto"` (default) places the image beside the code when there
+  is room and below it otherwise; `"row"` forces side by side, `"column"`
+  forces the image below.
 * `type = "one_row"` highlights only the hovered row (default is incremental).
 * `fixed_scales = TRUE` pins axes and legends from the final plot so the
   image does not jump between steps.

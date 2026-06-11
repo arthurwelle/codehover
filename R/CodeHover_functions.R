@@ -8,6 +8,11 @@
 #' @param type (string) Type of hover effect, "one_row" or "incremental";
 #'   the latter highlights the hovered row and every prior row.
 #'   Default "incremental".
+#' @param layout (string) Placement of the image relative to the code table:
+#'   "auto" (default) puts them side by side when there is room and wraps
+#'   the image below otherwise (responsive); "row" forces side by side,
+#'   shrinking the image if needed; "column" forces the image below the
+#'   code.
 #' @param css_class (string) Extra CSS class added to the container, for
 #'   custom styling.
 #' @param table_tag_add (string) Additional HTML attributes for the
@@ -22,6 +27,7 @@
 #' @export
 ch_int <- function(
   type = "incremental",
+  layout = "auto",
   css_class = "",
   table_tag_add = "",
   div_tag_add = "",
@@ -29,8 +35,14 @@ ch_int <- function(
 
   type_class <- if (type == "one_row") "codehover-onerow" else "codehover-incremental"
 
+  layout_class <- switch(layout,
+    row    = " codehover-layout-row",
+    column = " codehover-layout-column",
+    ""
+  )
+
   paste0(
-    "<div class='codehover ", type_class, " ", css_class, "'>",
+    "<div class='codehover ", type_class, layout_class, " ", css_class, "'>",
     "<div class='codehover-code' ", div_tag_add, "><table ", table_tag_add, ">"
   )
 }

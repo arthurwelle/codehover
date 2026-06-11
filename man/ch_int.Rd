@@ -6,6 +6,7 @@
 \usage{
 ch_int(
   type = "incremental",
+  layout = "auto",
   css_class = "",
   table_tag_add = "",
   div_tag_add = "",
@@ -16,6 +17,12 @@ ch_int(
 \item{type}{(string) Type of hover effect, "one_row" or "incremental";
 the latter highlights the hovered row and every prior row.
 Default "incremental".}
+
+\item{layout}{(string) Placement of the image relative to the code table:
+"auto" (default) puts them side by side when there is room and wraps
+the image below otherwise (responsive); "row" forces side by side,
+shrinking the image if needed; "column" forces the image below the
+code.}
 
 \item{css_class}{(string) Extra CSS class added to the container, for
 custom styling.}

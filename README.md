@@ -26,7 +26,7 @@ devtools::install_github("arthurwelle/codehover")
 
 ## Quick start: automatic mode
 
-Since version 2.0.0 you no longer need to save each image by hand, nor
+Since version 1.0.0 you no longer need to save each image by hand, nor
 set up any CSS/JavaScript. Give `ch_hover()` your ggplot code and it
 does the rest: the code is split at every top-level `+`, each partial
 plot is rendered to an image, and the result is a self-contained HTML
@@ -55,6 +55,10 @@ template).
 ``` r
 ch_hover({ ... },
   type = "incremental",   # or "one_row": highlight only the hovered row
+  layout = "auto",        # image beside the code when there is room,
+                          # below it otherwise. "row" forces side by side
+                          # (image shrinks if needed); "column" forces
+                          # the image below the code
   fixed_scales = FALSE,   # TRUE pins axes/legends from the final plot,
                           # so the image does not "jump" between steps
   width = 7, height = 5,  # image size in inches
@@ -110,7 +114,7 @@ result <- ch_int(type = "incremental") %>%
 result
 ```
 
-Since v2.0.0 `ch_out()` already returns a renderable object with the CSS
+Since v1.0.0 `ch_out()` already returns a renderable object with the CSS
 and JavaScript attached — you no longer pass it through
 `htmltools::HTML()`, and no template is needed.
 
@@ -128,7 +132,7 @@ See the
 <a href="https://arthurwelle.github.io/codehover/articles/codehover_map_example.html">HTML
 version here</a>.
 
-## What changed in 2.0.0
+## What changed in 1.0.0
 
 -   New: `ch_hover()` and `ch_hover_chunk()` — automatic splitting,
     rendering and assembling, now the main entry point.
