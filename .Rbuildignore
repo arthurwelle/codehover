@@ -1,5 +1,13 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^Example.gif
+^Example_MAP.gif
 ^HexSticker$
 ^README\.Rmd$
+^README\.html$
+^README_files$
+^docs$
+^CriandoPacote\.Rmd$
+^Rplots\.pdf$
+^\.txt$
+^\.Rhistory$

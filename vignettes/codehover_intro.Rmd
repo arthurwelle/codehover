@@ -1,10 +1,6 @@
 ---
 title: "Codehover intro"
-output: 
-  html_document:
-    css: ["codehoverStyle.css"]
-    includes:
-      after_body: codehoverJavascript.txt
+output: html_document
 ---
 
 ```{r setup, include = FALSE}
@@ -145,11 +141,11 @@ result <- ch_int(type = "incremental") %>%
   
 ```
 
-Finally call the created object into the HTML using <a href="https://github.com/rstudio/htmltools">htmltool::HMTL()</a>.
+Since version 2.0.0 the object returned by ``ch_out()`` is already renderable (its CSS and JavaScript are attached automatically) -- just print it.
 
 
 ```{r, echo=TRUE}
-htmltools::HTML(result)
+result
 ```
 
 

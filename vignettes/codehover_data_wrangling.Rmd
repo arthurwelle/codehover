@@ -1,10 +1,6 @@
----
+﻿---
 title: "Codehover Data Wrangling"
-output: 
-  html_document:
-    css: ["codehoverStyle.css"]
-    includes:
-      after_body: codehoverJavascript.txt
+output: html_document
 ---
 
 
@@ -189,7 +185,7 @@ result <- ch_int(type = "incremental") %>%
 
 
 ```{r, echo=FALSE}
-htmltools::HTML(result)
+result
 ```
 
 
@@ -214,7 +210,7 @@ result <- ch_int(type = "incremental") %>%
 ```
 
 ```{r, echo=FALSE}
-htmltools::HTML(result)
+result
 ```
 
 
@@ -240,7 +236,7 @@ result <- ch_int(type = "incremental") %>%
                    img ="./IMG/fixed_dimentions/t4B.png") %>% 
           ch_out(img = "./IMG/fixed_dimentions/t0B.png") 
 
-htmltools::HTML(result)
+result
 ```
 
 
@@ -263,7 +259,7 @@ result <- ch_int(type = "incremental") %>%
                    img ="./IMG/fixed_dimentions/t4B.png") %>%   
           ch_out(img = "./IMG/fixed_dimentions/t0B.png") 
 
-htmltools::HTML(result)
+result
 ```
 
 

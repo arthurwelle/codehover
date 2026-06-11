@@ -1,0 +1,6 @@
+name: codehover (manual)
+description: >
+  Hand-built hoverable table: save your own images and assemble rows with
+  ch_int(), ch_row(), ch_out(). For ggplot chains prefer the automatic
+  template.
+create_dir: false

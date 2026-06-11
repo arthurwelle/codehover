@@ -2,24 +2,29 @@
 % Please edit documentation in R/CodeHover_functions.R
 \name{ch_row}
 \alias{ch_row}
-\title{Codehover add row}
+\title{codehover add row}
 \usage{
 ch_row(.data = "", text = "", img = "", url = FALSE, ...)
 }
 \arguments{
-\item{.data}{Codehover object (text string) created by ch_int.}
+\item{.data}{codehover string created by [ch_int()] or a previous
+[ch_row()].}
 
-\item{text}{(string) Text to be display inside the table row.}
+\item{text}{(string) Text displayed inside the row.}
 
-\item{img}{(string) Path to the image. If url = TRUE the img should be a url link to a image.}
+\item{img}{(string) Path to the image, or a URL if `url = TRUE`.}
 
-\item{url}{(Boolean) Default FALSE, if TRUE indicates that the image is hosted somewhere else and it should not be embeded in the HTML page via base64.}
+\item{url}{(logical) Default FALSE, which embeds the image into the HTML
+as base64. TRUE writes the path/URL as-is.}
 
-\item{...}{Adicional paramethers}
+\item{...}{Additional parameters.}
 }
 \value{
-The populated HTML table to be passed to another \code{ch_row} function or to the \code{ch_out} function to finnish the table.
+The growing HTML table (string), to be passed to another
+  [ch_row()] or finished with [ch_out()].
 }
 \description{
-Codehover add row to the table and images to be linked to each row. You can create multiple lines piping various \code{ch_row}.
+Adds a row to the table and links an image to it. Pipe
+  multiple `ch_row()` calls to build the table. Inside `text` you can
+  use `<br>` for line breaks and `<tab1>` ... `<tab16>` for indentation.
 }

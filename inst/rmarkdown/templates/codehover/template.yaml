@@ -1,4 +1,5 @@
-name: CodeHover
+name: codehover (automatic)
 description: >
-   Creates a template for CodeHover with its CSS and Javacript dependencies.
-create_dir: TRUE
+  Hoverable table from ggplot code: ch_hover() splits the code, renders one
+  image per step and returns a self-contained HTML object.
+create_dir: false

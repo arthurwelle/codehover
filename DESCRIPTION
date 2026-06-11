@@ -1,24 +1,28 @@
 Package: codehover
 Type: Package
-Title: Hoverable HTML Table for Displaying Intermediary Code Results (Pipes) 
-Version: 0.0.1
+Title: Hoverable HTML Tables That Reveal ggplot Code Step by Step
+Version: 2.0.0
 Author: Arthur Welle
-Maintainer: Arthur Welle <arthurwell@gmail.com>
-Description: Pipes are an excellent way to code for they make it easy to follow the code chain of transformations and theis results. 
-    The codehover aims to make it easy to create a HTML table with a simple hover effect (JQuery + CSS) that shows images just bellow this table.
-    This way one could set up lines of pseudo-code in a table and a series of images showing the intermediary results of said code.
+Maintainer: Arthur Welle <arthurwelle@gmail.com>
+Description: Creates interactive HTML tables where each row is a step of
+    code and hovering a row shows the corresponding image. The main entry
+    point ch_hover() takes ggplot code, splits it automatically at every
+    top-level '+', renders one image per step and returns a self-contained
+    HTML object (CSS and JavaScript included) that works in R Markdown,
+    Quarto and the RStudio viewer. A low-level API (ch_int(), ch_row(),
+    ch_out()) remains available for hand-built tables with arbitrary
+    images and pseudo-code.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Imports:
-    flipbookr,
     htmltools,
-    knitr,
-    purrr,
-    stringr
+    knitr
+Suggests:
+    ggplot2,
+    ragg,
+    rmarkdown
 URL: https://github.com/arthurwelle/codehover
 BugReports: https://github.com/arthurwelle/codehover/issues
 VignetteBuilder: knitr
-Suggests: 
-    rmarkdown

@@ -8,209 +8,111 @@ output: github_document
 <!-- badges: start -->
 <!-- badges: end -->
 
-Pipes are an excellent way to code. They make it easy to follow the code chain of transformations and their results. 
+codehover creates interactive HTML tables where each row is a step of code and hovering a row shows the corresponding image. It is an educational tool: a fast way of showing what each line of a ggplot (or any pipe-like code) actually does.
 
-The codehover aims to make it easy to create a HTML table with a simple hover effect (JavaScript/JQuery + CSS) that shows images just bellow the said table. 
+![](Example.gif)
 
-This way one could set up pseudo-lines of code (show as text) in the table and a series of images showing the intermediate results of the code with a hovering interaction. 
-
-The package use is educational, a fast way of showing code actions. 
-
-I have to say that I begin with the idea of the package without knowing about a similar package based on <a href= "https://github.com/yihui/xaringan">Xaringan</a>: <a href= "https://github.com/EvaMaeRey/flipbookr">flipbookr</a>. In fact, I guess it was in my subconscious all along, for I follow Gina Reynolds work on <a href= "https://twitter.com/EvaMaeRey">Twitter</a> for a long time. She made a wonderful job there, way more sophisticated than I even hope to implement here. codehover is aimed at a HTML page (through <a href="https://rmarkdown.rstudio.com/">RMarkdown</a>), with hover effect
-. By virtue of those simple differences I will keep the package online (until she implements the same functionality on flipbookr - granted that she already shows how to embed xaringan presentation into HTML(<a hred="https://evangelinereynolds.netlify.app/post/embedding-flipbook-mini-in-html-document/">here</a>)).
-
-## An example
-
-To be fair this example is not well implemented yet. To make it side by side I manually change the CSS of the whole page. 
-
-![](Example_MAP.gif)  
-
-
-See the <a href="https://arthurwelle.github.io/codehover/articles/codehover_map_example.html">HTML version here</a>.
+See a <a href="https://arthurwelle.github.io/codehover/articles/codehover_intro.html">live HTML version here</a>.
 
 ## Installation
 
-You can install the experimental version of codehover from github:
+You can install codehover from github:
 
 ``` r
 install.packages("devtools")
 devtools::install_github("arthurwelle/codehover")
 ```
 
-After installation a new <a href="https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html">RMarkdown Template</a> shoud be available for you (File -> New File -> R Markdown -> From Template -> codehover). You should use this RMarkdown template in order to work with codehover because it loads the JavaScript/JQuery and the CSS necessary for its tasks. 
+## Quick start: automatic mode
 
-Most of the times, as happnes with all new templates, after installation the template won't show up in the menu right away. If this is the case, restart RStudio, it should come up then.
+Since version 2.0.0 you no longer need to save each image by hand, nor set up any CSS/JavaScript. Give `ch_hover()` your ggplot code and it does the rest: the code is split at every top-level `+`, each partial plot is rendered to an image, and the result is a self-contained HTML object that works in R Markdown, Quarto and the RStudio viewer.
 
-Every time you create a new codehover RMarkdown from template a folder will be created with the CSS and JavaScript files inside. They are needed to run the codehover properly, but once you have your final knitted file the CSS and the JavaScript will be attached to the HTML file, thus becoming self-contained. 
-
-```{r}
+``` r
 library(ggplot2)
-```
-
-
-# Workflow example
-
-Let´s try to replicate the following graph (code and intermediate steps).
-
-```{r a_plot, eval=TRUE, echo=TRUE}
-ggplot() +
-  geom_point(data = cars,
-             aes(x = speed, 
-                 y = dist),
-            color = 'red') +
-  scale_y_continuous(limits = c(0,100)) +
-  labs(title = 'A ggplot fot the rest of us',
-       subtitle = 'Testing a way of explicit showing the R workflow') +
-  theme_bw()
-```
-
-
-
-
-
-
-
-
-
-Save every step as an image.
-
-```{r, eval=FALSE, echo=TRUE}
-
-g <- ggplot2::ggplot() +
-  geom_point(data = cars,
-             aes(x = speed, 
-                 y = dist))
-
-ggplot2::ggsave("./docs/1b.png", width = 4, height = 3) 
-
-g <-  g + aes(color = "red")
-ggplot2::ggsave("./docs/2b.png", width = 4, height = 3) 
-
-g <-  g + scale_y_continuous(limits = c(0,100))
-ggplot2::ggsave("./docs/3b.png", width = 4, height = 3) 
-
-g <-  g + labs(title = "A ggplot fot the rest of us")
-ggplot2::ggsave("./docs/4b.png", width = 4, height = 3) 
-
-g <-  g + labs(subtitle = "Testing a way of explicit showing the R workflow")
-ggplot2::ggsave("./docs/5b.png", width = 4, height = 3) 
-
-g <-  g + theme_bw()
-ggplot2::ggsave("./docs/6b.png", width = 4, height = 3) 
-
-```
-
-codehover has three functions that should be used together in a pipe-like style: ``ch_int()``, ``ch_row()``, and ``ch_out()``.
-
-``ch_int()`` initiates the HTML table, one can choose if the hover effect will be incremental or for a single row of the table. You can pass a custom CSS class for the whole table here as well.
- 
-After that you can use multiple ``ch_row`` calls to make as many rows as you like in the HTML table. For every line you should pass a *text* (the pseudo code you want to show) and an image. By default codehover uses <a href="https://yihui.org/knitr/">knitr</a> to encode the image file as a base64 string, with that your final HTML is self-contain in just one file (the images would be inside it). With multiple images this can increase file size considerable, so it´s optional to pass an url (with url = TRUE) if you dont want the behavior of embeding images. This way you can host your images anywhere.
-
-Note that the code (the pseudo-code as text) use some &lt;tabs> and &amp;nbsp; for indentation of the final text displayed. See more of that bellow.
-
-Finally you should close the table with the function ``ch_out``. Here you can indicate another image to be show before any hover interaction, as well as to pass another CSS class to the image holder to control its size and placement in the page.
-
-With these three codehover functions you create an object (in fact just a text string) that ``htmltool::HMTL()`` function can inject in the HTML page. 
-
-
-```{r, echo=TRUE}
-library(magrittr)
 library(codehover)
-result <- ch_int(type = "incremental") %>% 
-          ch_row(text = 
-                     "ggplot() + 
-                      <br> <tab1> geom_point(data = cars, </tab1>
-                      <br> <tab2> aes(x = speed, </tab2>
-                      <br> <tab2> &nbsp; &nbsp; y = dist, </tab2>",
-                   img ="./docs/1b.png") %>% 
-          ch_row(text = "<tab2> color = 'red')) + </tab2>",
-                   img ="./docs/2b.png") %>%   
-          ch_row(text = "<tab1> scale_y_continuous(limits = c(0,100)) + </tab1>",
-                   img ="./docs/3b.png") %>% 
-          ch_row(text = "<tab1> labs(title = 'A ggplot fot the rest of us', </tab1>",
-                   img ="./docs/4b.png") %>%   
-          ch_row(text = "<tab2> subtitle = 'Testing a way of explicit showing the R workflow') + </tab2>",
-                   img ="./docs/5b.png") %>% 
-          ch_row(text = "<tab1>  theme_bw()</tab1> ",
-                   img ="./docs/6b.png") %>%
-          ch_out(img = "./docs/1b.png") 
- 
-ch_int 
-ch_row
-ch_out
 
-result %>% cat()
-
+ch_hover({
+  ggplot(mtcars, aes(x = wt, y = mpg)) +
+    geom_point(color = "red") +
+    scale_y_continuous(limits = c(0, 40)) +
+    labs(title = "A ggplot for the rest of us") +
+    theme_bw()
+})
 ```
 
-Finally call the created object into the HTML using <a href="https://github.com/rstudio/htmltools">htmltool::HMTL()</a>.
+That single call replaces the whole manual workflow of v1 (saving six images with `ggsave()`, writing six `ch_row()` calls with hand-made pseudo-code, and wiring CSS and JavaScript through an R Markdown template).
 
+### Options worth knowing
 
-```{r, echo=TRUE}
-htmltools::HTML(result)
+``` r
+ch_hover({ ... },
+  type = "incremental",   # or "one_row": highlight only the hovered row
+  fixed_scales = FALSE,   # TRUE pins axes/legends from the final plot,
+                          # so the image does not "jump" between steps
+  width = 7, height = 5,  # image size in inches
+  dpi = 96,
+  path = NULL             # default: images embedded as base64 and deleted.
+)                         # give a folder ("assets/") to keep the PNGs on
+                          # disk and reference them by path (smaller HTML)
 ```
 
-![](Example.gif) 
+By default each step shows the *true* output of its partial code, so axes and legends may change as layers are added — pedagogically honest. Use `fixed_scales = TRUE` for a visually stable reveal (this mechanism is borrowed from the excellent <a href="https://github.com/weverthonmachado/ggreveal">ggreveal</a> package by Weverthon Machado).
 
-See the <a href="https://arthurwelle.github.io/codehover/articles/codehover_intro.html">HTML version here</a>.
+### Keeping the source document clean
 
-# Writing style (bits and quirks) 
+In R Markdown or Quarto you may prefer to write the plot in a normal chunk and reference it by label, so your document shows clean code:
 
-## Quotes
-
-From <a href="https://stat.ethz.ch/R-manual/R-patched/library/base/html/Quotes.html">Quotes</a> we see that "*single quotes are normally only used to delimit character constants containing double quotes*". This is the exactlly use here, we have to use single quotes in the R code that we want to pass as text for the HTML table.
-
-For exemple, if we want to pass a ggplot2 title we could interchangebly use labs(title = "A Title") or labs(title = 'A Title'), but if we want to pass this as text to codehover we should use single quotes. 
-
-  ch_row(text = "labs(title = 'A Title')")
-         
-## Indentation         
-
-You can use the &lt;br> tag to initiate new lines.
-
-And to proper indent your text, as you would like to do to a code, you can use the HTML non-breaking spaces.
-
-&amp;nbsp; a single non-breaking space;
-
-&amp;ensp; is equal to two &amp;nbsp;
-
-&amp;emsp; is equal to four &amp;nbsp;
-
-Alternatively the codehover CSS has the tags &lt;tab1> to &lt;tab16> to denote 1 to 16 tabs (each tab is 4 spaces). To use it you have to enclose the text in those tags. For example:
-
-ch_row(text = "&lt;tab7>theme_bw()&lt;/tab7>")
-
-
-# JQuery/Javascript
-
-For reference here is the JavaScript/JQuery code for the hover effects (incremental and single row).
-
-
-``` js
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-$('.pipehover_incremental tr').hover(function() {
-  $(this).removeClass()
-  $(this).prevAll().removeClass()
-  $(this).nextAll().removeClass()
-  $(this).addClass('hover');
-  $(this).prevAll().addClass('hover');
-  $(this).closest('div').next().find('img').attr("src", $(this).attr("link"));
-});
-
-
-$('.pipehover_select_one_row tr').hover(function() {
-  $(this).removeClass()
-  $(this).prevAll().removeClass()
-  $(this).nextAll().removeClass()
-  $(this).addClass('hover');
-  $(this).closest('div').next().find('img').attr("src", $(this).attr("link"));
-});
-
-</script>
+````
+```{r myplot, eval=FALSE}
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm")
 ```
 
-# Reference
+`r knitr::inline_expr("ch_hover_chunk('myplot')")`
+````
 
-The codehover hex sticker was made using the R package <a href="https://github.com/GuangchuangYu/hexSticker">hexSticker</a>. 
+## Manual mode (low-level API)
+
+The original building blocks are still exported, and they remain the way to go when your steps are *not* a single ggplot `+` chain: data-wrangling pipelines, maps built from several objects, any sequence of images with any pseudo-code.
+
+You build the table by piping three functions — `ch_int()` starts it, `ch_row()` adds one row linked to one image, `ch_out()` closes it:
+
+``` r
+library(magrittr)
+
+result <- ch_int(type = "incremental") %>%
+  ch_row(text = "ggplot() + <br> <tab1> geom_point(data = cars, aes(speed, dist)) </tab1>",
+         img = "./IMG/1.png") %>%
+  ch_row(text = "<tab1> scale_y_continuous(limits = c(0,100)) + </tab1>",
+         img = "./IMG/2.png") %>%
+  ch_row(text = "<tab1> theme_bw() </tab1>",
+         img = "./IMG/3.png") %>%
+  ch_out(img = "./IMG/3.png")
+
+result
+```
+
+Since v2.0.0 `ch_out()` already returns a renderable object with the CSS and JavaScript attached — you no longer pass it through `htmltools::HTML()`, and no template is needed.
+
+Inside `text` you can use `<br>` for line breaks, `&nbsp;`/`&ensp;`/`&emsp;` for spaces, and the tags `<tab1>` ... `<tab16>` for indentation levels. By default images are embedded into the HTML as base64 (self-contained single file); pass `url = TRUE` to reference images hosted elsewhere.
+
+## An example with maps
+
+![](Example_MAP.gif)
+
+See the <a href="https://arthurwelle.github.io/codehover/articles/codehover_map_example.html">HTML version here</a>.
+
+## What changed in 2.0.0
+
+* New: `ch_hover()` and `ch_hover_chunk()` — automatic splitting, rendering and assembling, now the main entry point.
+* Output is self-contained: CSS and vanilla JavaScript travel with the HTML object (`htmltools` dependency). No more templates, YAML wiring, or jQuery/CDN.
+* `ch_out()` returns the finished, renderable object directly (do not wrap it in `htmltools::HTML()` anymore).
+* Rows now use the valid HTML5 `data-link` attribute (also fixes Quarto reveal.js usage); the fixed `id='img_holder'` is gone, so several tables can live on one page.
+* Removed: the flipbookr-based functions (`chunk_code_hover()` etc.) and the flipbookr dependency. `ch_hover()` replaces them with no private-API usage and no `#<<` markers.
+
+## Credits
+
+I began this package without knowing about the similar (and more sophisticated) <a href="https://github.com/EvaMaeRey/flipbookr">flipbookr</a> by Gina Reynolds, based on <a href="https://github.com/yihui/xaringan">Xaringan</a> — it was probably in my subconscious all along. codehover v1's automatic mode was built on flipbookr internals; v2 has its own splitter but the idea remains hers. The `fixed_scales` mechanism comes from <a href="https://github.com/weverthonmachado/ggreveal">ggreveal</a> by Weverthon Machado.
+
+The codehover hex sticker was made using the R package <a href="https://github.com/GuangchuangYu/hexSticker">hexSticker</a>.

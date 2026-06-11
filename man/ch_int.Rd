@@ -2,7 +2,7 @@
 % Please edit documentation in R/CodeHover_functions.R
 \name{ch_int}
 \alias{ch_int}
-\title{codehover initiate Table}
+\title{codehover initiate table}
 \usage{
 ch_int(
   type = "incremental",
@@ -13,19 +13,28 @@ ch_int(
 )
 }
 \arguments{
-\item{type}{(string) Type of hover effect, options are "one_row" or "incremental", the later highlights every prior row and the row curent hovered. Default is "incremental".}
+\item{type}{(string) Type of hover effect, "one_row" or "incremental";
+the latter highlights the hovered row and every prior row.
+Default "incremental".}
 
-\item{css_class}{(string) Pass a CSS class name here as text to style the whole table.}
+\item{css_class}{(string) Extra CSS class added to the container, for
+custom styling.}
 
-\item{table_tag_add}{(string) Aditional html parameter for table tag.}
+\item{table_tag_add}{(string) Additional HTML attributes for the
+`<table>` tag.}
 
-\item{div_tag_add}{(string) Aditional html parameter for div tag (table container).}
+\item{div_tag_add}{(string) Additional HTML attributes for the `<div>`
+wrapping the table.}
 
-\item{...}{Adicional paramethers}
+\item{...}{Additional parameters.}
 }
 \value{
-The beggining of an HTML table to be passed to the function \code{ch_row}
+The beginning of an HTML table (string), to be passed to
+  [ch_row()].
 }
 \description{
-Codehover initiate HTML table. Here you can adjust some HTML-style properties, and choose the type of hover effect.
+Starts a codehover HTML table. This is the low-level
+  building-block API: use it when you want full control over the row
+  text and the images (any images, any pseudo-code). For automatic
+  splitting of ggplot code, see [ch_hover()].
 }

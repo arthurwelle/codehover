@@ -1,0 +1,84 @@
+---
+title: "Automatic code hover with ch_hover()"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Automatic code hover with ch_hover()}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(codehover)
+```
+
+Since version 2.0.0, `ch_hover()` is the main entry point of codehover.
+Give it ggplot code and it:
+
+1. splits the code at every top-level `+`;
+2. evaluates each cumulative step;
+3. renders one image per step;
+4. returns a hoverable table with CSS and JavaScript attached — no
+   template, YAML or jQuery needed.
+
+# Basic use
+
+```{r, echo=TRUE}
+ch_hover({
+  ggplot(cars, aes(x = speed, y = dist)) +
+    geom_point(color = "red") +
+    scale_y_continuous(limits = c(0, 100)) +
+    labs(title = "A ggplot for the rest of us",
+         subtitle = "Hover each row to see that step") +
+    theme_bw()
+}, width = 4, height = 3)
+```
+
+Hover the rows above: each one shows the plot as it looks *up to that
+step*.
+
+# Fixed scales
+
+By default every step shows the true output of its partial code, so axes
+and legends may move as layers are added. With `fixed_scales = TRUE` the
+axes, legends and panel layout are pinned from the final plot, giving a
+visually stable reveal (mechanism borrowed from the
+[ggreveal](https://github.com/weverthonmachado/ggreveal) package):
+
+```{r, echo=TRUE}
+ch_hover({
+  ggplot(mtcars, aes(x = wt, y = mpg)) +
+    geom_point(aes(color = factor(cyl))) +
+    geom_smooth(method = "lm")
+}, fixed_scales = TRUE, width = 4, height = 3)
+```
+
+# Referencing a chunk by label
+
+To keep your source document clean, write the plot in a normal chunk with
+`eval=FALSE` and call `ch_hover_chunk()` with the chunk label:
+
+```{r mybar, eval=FALSE, echo=TRUE}
+ggplot(mtcars, aes(x = factor(cyl))) +
+  geom_bar(fill = "steelblue") +
+  coord_flip()
+```
+
+`r ch_hover_chunk("mybar", width = 4, height = 3)`
+
+# Other options
+
+* `type = "one_row"` highlights only the hovered row instead of the
+  incremental effect.
+* `path = "assets/"` keeps the step PNGs on disk and references them by
+  relative path, instead of embedding base64 (smaller HTML, but the folder
+  must travel with the page).
+* `width`, `height` (inches) and `dpi` control the rendered images.
+
+# When to use the manual API
+
+`ch_hover()` handles ggplot `+` chains. For anything else — data-wrangling
+pipelines, maps assembled from several objects, arbitrary images — use the
+low-level `ch_int() %>% ch_row() %>% ch_out()` API described in the
+introduction vignette.

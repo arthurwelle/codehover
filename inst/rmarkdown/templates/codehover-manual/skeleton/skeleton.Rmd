@@ -1,0 +1,50 @@
+---
+title: "codehover (manual)"
+author: "Your Name"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(magrittr)
+library(codehover)
+```
+
+The manual API gives you full control: any images, any pseudo-code. Useful
+when your steps are not a single ggplot `+` chain (data wrangling, maps,
+mixed outputs). For ggplot chains, prefer `ch_hover()` — see the
+"codehover (automatic)" template.
+
+# 1) Create a folder and save one image per step
+
+```{r, warning=FALSE}
+dir.create("./IMG/", showWarnings = FALSE)
+
+g <- ggplot(cars, aes(x = speed, y = dist)) +
+  geom_point()
+ggsave("./IMG/1.png", g, width = 4, height = 3)
+
+g <- g + scale_y_continuous(limits = c(0, 100))
+ggsave("./IMG/2.png", g, width = 4, height = 3)
+
+g <- g + theme_bw()
+ggsave("./IMG/3.png", g, width = 4, height = 3)
+```
+
+# 2) Build the hoverable table
+
+Pipe `ch_int()`, one `ch_row()` per step, and `ch_out()`. Inside `text`
+use `<br>` for line breaks and `<tab1>` ... `<tab16>` for indentation.
+The result already carries its CSS and JavaScript — just print it.
+
+```{r, echo=TRUE}
+ch_int(type = "incremental") %>%
+  ch_row(text = "ggplot(cars, aes(x = speed, y = dist)) + <br> <tab1> geom_point() + </tab1>",
+         img = "./IMG/1.png") %>%
+  ch_row(text = "<tab1> scale_y_continuous(limits = c(0, 100)) + </tab1>",
+         img = "./IMG/2.png") %>%
+  ch_row(text = "<tab1> theme_bw() </tab1>",
+         img = "./IMG/3.png") %>%
+  ch_out(img = "./IMG/3.png")
+```

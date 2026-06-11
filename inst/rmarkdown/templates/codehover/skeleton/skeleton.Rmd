@@ -1,86 +1,49 @@
 ---
-title: "Codehover Template"
-autor: "Your Name"
-output: 
-  html_document:
-    css: ["codehoverStyle.css"]
-    includes:
-      after_body: codehoverJavascript.txt
+title: "codehover"
+author: "Your Name"
+output: html_document
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-
-```{r, include=FALSE}
-library(tidyverse)
-library(htmltools)
-library(knitr)
+library(ggplot2)
 library(codehover)
-
 ```
 
-# 1) Let´s create a folder for the images
+# Automatic code hover
 
-```{r}
-dir.create("./IMG/")
-```
-
-# 2) Create images showing the steps of the code
-
-```{r, warning=FALSE}
-g <- ggplot2::ggplot() +
-  geom_point(data = cars,
-             aes(x = speed, 
-                 y = dist))
-
-ggplot2::ggsave("./IMG/1.png", width = 4, height = 3) 
-
-g <-  g + aes(color = "red")
-ggplot2::ggsave("./IMG/2.png", width = 4, height = 3) 
-
-g <-  g + scale_y_continuous(limits = c(0,100))
-ggplot2::ggsave("./IMG/3.png", width = 4, height = 3) 
-
-g <-  g + labs(title = "A ggplot fot the rest of us")
-ggplot2::ggsave("./IMG/4.png", width = 4, height = 3) 
-
-g <-  g + labs(subtitle = "Testing a way of explicit showing the R workflow")
-ggplot2::ggsave("./IMG/5.png", width = 4, height = 3) 
-
-g <-  g + theme_bw()
-ggplot2::ggsave("./IMG/6.png", width = 4, height = 3) 
-```
-
-# 3) Create a hoveable table using **ch_int()**, **ch_row()**, and **ch_out()**.
-
+Write your ggplot inside `ch_hover({ ... })`. The code is split at every
+top-level `+`, one image is rendered per step, and the hoverable table is
+returned ready to use — CSS and JavaScript are attached automatically.
 
 ```{r, echo=TRUE}
-result <- ch_int(type = "incremental") %>% 
-          ch_row(text = 
-                     "ggplot() + 
-                      <br> <tab1> geom_point(data = cars, </tab1>
-                      <br> <tab2> aes(x = speed, </tab2>
-                      <br> <tab2> &nbsp; &nbsp; y = dist, </tab2>",
-                   img ="./IMG/1.png") %>% 
-          ch_row(text = "<tab2> color = 'red')) + </tab2>",
-                   img ="./IMG/2.png") %>%   
-          ch_row(text = "<tab1> scale_y_continuous(limits = c(0,100)) + </tab1>",
-                   img ="./IMG/3.png") %>% 
-          ch_row(text = "<tab1> labs(title = 'A ggplot fot the rest of us', </tab1>",
-                   img ="./IMG/4.png") %>%   
-          ch_row(text = "<tab2> subtitle = 'Testing a way of explicit showing the R workflow') + </tab2>",
-                   img ="./IMG/5.png") %>% 
-          ch_row(text = "<tab1>  theme_bw()</tab1> ",
-                   img ="./IMG/6.png") %>%
-          ch_out(img = "./IMG/1.png") 
+ch_hover({
+  ggplot(cars, aes(x = speed, y = dist)) +
+    geom_point(color = "red") +
+    scale_y_continuous(limits = c(0, 100)) +
+    labs(title = "A ggplot for the rest of us",
+         subtitle = "Hover each row to see that step") +
+    theme_bw()
+}, width = 4, height = 3)
 ```
 
-# 4) Call the table into the HTML with {htmltools}.
+# Keeping the source clean
 
-```{r, echo=TRUE}
-htmltools::HTML(result)
+Alternatively, write the plot in a normal chunk with `eval=FALSE` and
+reference it by label, so your document shows the plain code:
+
+```{r myplot, eval=FALSE, echo=TRUE}
+ggplot(cars, aes(x = speed, y = dist)) +
+  geom_point() +
+  geom_smooth(method = "lm")
 ```
 
+`r ch_hover_chunk("myplot", width = 4, height = 3)`
+
+# Useful options
+
+* `type = "one_row"` highlights only the hovered row (default is incremental).
+* `fixed_scales = TRUE` pins axes and legends from the final plot so the
+  image does not jump between steps.
+* `path = "assets/"` keeps the step PNGs on disk instead of embedding them
+  as base64 (smaller HTML file).

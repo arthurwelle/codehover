@@ -1,0 +1,58 @@
+/* codehover v2 — all rules scoped under .codehover */
+
+.codehover {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+  margin: 1rem 0;
+}
+
+.codehover .codehover-code {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.codehover .codehover-img {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.codehover .codehover-img img {
+  max-width: 100%;
+  height: auto;
+}
+
+.codehover table {
+  cursor: pointer;
+  border: none;
+  border-collapse: collapse;
+  font-family: "Lucida Console", Consolas, Monaco, monospace;
+  font-size: 0.9em;
+}
+
+.codehover td {
+  padding: 3px 10px;
+  border: none;
+}
+
+.codehover tr.hover {
+  background-color: #F1D95A;
+}
+
+.codehover tab1  { padding-left: 2em;  }
+.codehover tab2  { padding-left: 4em;  }
+.codehover tab3  { padding-left: 6em;  }
+.codehover tab4  { padding-left: 8em;  }
+.codehover tab5  { padding-left: 10em; }
+.codehover tab6  { padding-left: 12em; }
+.codehover tab7  { padding-left: 14em; }
+.codehover tab8  { padding-left: 16em; }
+.codehover tab9  { padding-left: 18em; }
+.codehover tab10 { padding-left: 20em; }
+.codehover tab11 { padding-left: 22em; }
+.codehover tab12 { padding-left: 24em; }
+.codehover tab13 { padding-left: 26em; }
+.codehover tab14 { padding-left: 28em; }
+.codehover tab15 { padding-left: 30em; }
+.codehover tab16 { padding-left: 32em; }
