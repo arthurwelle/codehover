@@ -127,6 +127,8 @@ ch_resolve_code <- function(code_value, code_sub) {
   # code written in place with source refs kept: use verbatim source
   src <- attr(code_sub, "srcref")
   if (!is.null(src)) {
+    # for a braced block the first srcref is the "{" token itself: drop it
+    if (is_brace) src <- src[-1]
     return(unlist(lapply(src, as.character), use.names = FALSE))
   }
 
