@@ -43,9 +43,17 @@ ch_split_code <- function(lines) {
 
   lapply(seq_along(steps_lines), function(i) {
     cumulative <- unlist(steps_lines[seq_len(i)], use.names = FALSE)
-    # strip the trailing "+" of this step so the cumulative code parses
+    # strip the trailing "+" of this step so the cumulative code parses.
+    # Important: strip comments carefully — "#" can appear inside string
+    # literals (e.g. color = "#1D8565").  Blank strings in a bare copy first,
+    # then use the bare position of "#" to trim the original line.
     last <- length(cumulative)
-    cumulative[last] <- sub("\\+\\s*$", "", sub("#.*$", "", cumulative[last]))
+    b <- gsub("\\\\.", "",        cumulative[last])   # escaped chars
+    b <- gsub('"[^"]*"',  '""',  b)                  # blank double-quoted
+    b <- gsub("'[^']*'",  "''",  b)                  # blank single-quoted
+    m <- regexpr("#", b)
+    if (m > 0L) cumulative[last] <- substr(cumulative[last], 1L, m - 1L)
+    cumulative[last] <- sub("\\+\\s*$", "", cumulative[last])
     list(
       lines = steps_lines[[i]],
       code  = paste(cumulative, collapse = "\n")
