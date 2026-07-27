@@ -110,8 +110,8 @@ ch_expr_to_lines <- function(expr) {
 #' @title Format one step's source lines for display in the hover table
 #'
 #' @description HTML-escapes the code, converts leading spaces to
-#'   `<tabN>` indentation tags (one level per two spaces) and joins
-#'   lines with `<br>`.
+#'   `<span class="ch-tabN">` indentation (one level per two spaces) and
+#'   joins lines with `<br>`.
 #'
 #' @param lines (character) Verbatim source lines of one step.
 #'
@@ -124,7 +124,9 @@ ch_format_step <- function(lines) {
     n_spaces <- nchar(l) - nchar(sub("^ *", "", l))
     level <- min(n_spaces %/% 2, 16)
     txt <- htmltools::htmlEscape(trimws(l, which = "left"))
-    if (level > 0) txt <- paste0("<tab", level, ">", txt, "</tab", level, ">")
+    if (level > 0) {
+      txt <- paste0("<span class='ch-tab", level, "'>", txt, "</span>")
+    }
     txt
   }, character(1), USE.NAMES = FALSE)
 

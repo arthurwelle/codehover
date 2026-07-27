@@ -11,3 +11,12 @@
 ^Rplots\.pdf$
 ^\.txt$
 ^\.Rhistory$
+^_pkgdown\.yml$
+^pkgdown$
+^\.github$
+^codehover_showcase.*$
+^showcase_assets$
+^LICENSE\.md$
+# pkgdown-only articles: no vignette engine, heavy dependencies
+^vignettes/codehover_intro\.Rmd$
+^vignettes/codehover_data_wrangling\.Rmd$

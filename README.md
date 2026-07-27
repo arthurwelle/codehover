@@ -1,7 +1,9 @@
 
-# codehover <img src="HexSticker/HexSticker.png" align="right" width="250" />
+# codehover <img src="HexSticker/HexSticker.png" alt="codehover hex sticker" align="right" width="250" />
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/arthurwelle/codehover/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/arthurwelle/codehover/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 codehover creates interactive HTML tables where each row is a step of
@@ -9,7 +11,8 @@ code and hovering a row shows the corresponding image. It is an
 educational tool: a fast way of showing what each line of a ggplot (or
 any pipe-like code) actually does.
 
-![](Example.gif)
+![Animation: hovering each row of a ggplot code table shows the plot as
+it looks up to that line](Example.gif)
 
 See a
 <a href="https://arthurwelle.github.io/codehover/articles/codehover_intro.html">live
@@ -63,9 +66,14 @@ ch_hover({ ... },
                           # so the image does not "jump" between steps
   width = 7, height = 5,  # image size in inches
   dpi = 96,
-  path = NULL             # default: images embedded as base64 and deleted.
-)                         # give a folder ("assets/") to keep the PNGs on
+  path = NULL,            # default: images embedded as base64 and deleted.
+                          # give a folder ("assets/") to keep the PNGs on
                           # disk and reference them by path (smaller HTML)
+  alt = NULL,             # alt text: one string per step, or one for all.
+                          # default builds "Plot after step i of n: <code>"
+  caption = NULL,         # caption shown under the image
+  initial = "last"        # image shown before any interaction:
+)                         # "last", "first" or a step number
 ```
 
 By default each step shows the *true* output of its partial code, so
@@ -74,6 +82,29 @@ Use `fixed_scales = TRUE` for a visually stable reveal (this mechanism
 is borrowed from the excellent
 <a href="https://github.com/weverthonmachado/ggreveal">ggreveal</a>
 package by Weverthon Machado).
+
+### Not only hover
+
+Rows react to mouse hover, to **tap** on phones and tablets, and to the
+**keyboard**: Tab moves into the table, Arrow Up/Down walks the steps,
+Enter/Space activates one. Every image carries alternative text.
+
+### Theming
+
+The stylesheet is scoped under `.codehover` and exposes CSS custom
+properties, so you can restyle it without fighting specificity:
+
+``` css
+.codehover {
+  --codehover-highlight: #cde7ff;   /* row highlight            */
+  --codehover-font: monospace;      /* code font                */
+  --codehover-font-size: 0.9em;
+  --codehover-tab: 2em;             /* width of one indent level */
+}
+```
+
+A dark-scheme default is applied automatically through
+`prefers-color-scheme`.
 
 ### Keeping the source document clean
 
@@ -119,14 +150,18 @@ and JavaScript attached — you no longer pass it through
 `htmltools::HTML()`, and no template is needed.
 
 Inside `text` you can use `<br>` for line breaks,
-`&nbsp;`/`&ensp;`/`&emsp;` for spaces, and the tags `<tab1>` … `<tab16>`
-for indentation levels. By default images are embedded into the HTML as
-base64 (self-contained single file); pass `url = TRUE` to reference
-images hosted elsewhere.
+`&nbsp;`/`&ensp;`/`&emsp;` for spaces, and `<span class="ch-tab1">` …
+`<span class="ch-tab16">` for indentation levels (the bare `<tab1>` …
+`<tab16>` tags used by earlier versions are still styled, so old
+documents keep working). `ch_row(alt =)` sets the alternative text
+announced when that row is active. By default images are embedded into
+the HTML as base64 (self-contained single file); pass `url = TRUE` to
+reference images hosted elsewhere.
 
 ## An example with maps
 
-![](Example_MAP.gif)
+![Animation: a map built step by step, each row of code showing the
+corresponding layer](Example_MAP.gif)
 
 See the
 <a href="https://arthurwelle.github.io/codehover/articles/codehover_map_example.html">HTML

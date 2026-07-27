@@ -4,7 +4,7 @@
 \alias{ch_row}
 \title{codehover add row}
 \usage{
-ch_row(.data = "", text = "", img = "", url = FALSE, ...)
+ch_row(.data = "", text = "", img = "", url = FALSE, alt = NULL, ...)
 }
 \arguments{
 \item{.data}{codehover string created by [ch_int()] or a previous
@@ -17,6 +17,10 @@ ch_row(.data = "", text = "", img = "", url = FALSE, ...)
 \item{url}{(logical) Default FALSE, which embeds the image into the HTML
 as base64. TRUE writes the path/URL as-is.}
 
+\item{alt}{(string) Alternative text for this row's image, used by
+screen readers when the row is activated. Default NULL keeps the
+alternative text set by [ch_out()].}
+
 \item{...}{Additional parameters.}
 }
 \value{
@@ -26,5 +30,15 @@ The growing HTML table (string), to be passed to another
 \description{
 Adds a row to the table and links an image to it. Pipe
   multiple `ch_row()` calls to build the table. Inside `text` you can
-  use `<br>` for line breaks and `<tab1>` ... `<tab16>` for indentation.
+  use `<br>` for line breaks and `<span class="ch-tab1">` ...
+  `<span class="ch-tab16">` for indentation (the bare `<tab1>` ...
+  `<tab16>` tags used by earlier versions still work).
+
+  Rows are focusable (`tabindex="0"`), so the table can be driven by
+  mouse hover, tap or keyboard (Tab plus arrow keys).
+}
+\examples{
+ch_row(ch_int(), text = "ggplot(cars, aes(speed, dist)) +",
+       img = "step-1.png", url = TRUE, alt = "empty plot panel")
+
 }

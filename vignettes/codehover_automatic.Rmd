@@ -85,14 +85,66 @@ ch_hover({
 }, layout = "column", width = 4, height = 3)
 ```
 
+# Beyond the mouse
+
+Rows are not hover-only. They also respond to:
+
+* **tap**, so the table works on phones and tablets;
+* the **keyboard** — Tab moves into the table, Arrow Up/Down walks the
+  steps and Enter/Space activates the focused one.
+
+Each step image carries alternative text. By default it is
+`"Plot after step i of n: <code of that step>"`; pass your own with
+`alt =` (one string per step, or a single string for all of them):
+
+```{r, echo=TRUE}
+ch_hover({
+  ggplot(cars, aes(speed, dist)) +
+    geom_point() +
+    theme_minimal()
+},
+alt = c("empty panel with speed and distance axes",
+        "the same panel with one point per car",
+        "final plot, minimal theme"),
+caption = "Stopping distance versus speed",
+width = 4, height = 3)
+```
+
+# Theming
+
+Everything is scoped under the `.codehover` class and driven by CSS
+custom properties, so a chunk of CSS in your document is enough to
+restyle the table:
+
+```css
+.codehover {
+  --codehover-highlight: #cde7ff;
+  --codehover-font: monospace;
+  --codehover-font-size: 0.9em;
+  --codehover-tab: 2em;
+}
+```
+
+A dark-scheme variant is applied automatically via
+`prefers-color-scheme`.
+
 # Other options
 
 * `type = "one_row"` highlights only the hovered row instead of the
   incremental effect.
 * `path = "assets/"` keeps the step PNGs on disk and references them by
   relative path, instead of embedding base64 (smaller HTML, but the folder
-  must travel with the page).
-* `width`, `height` (inches) and `dpi` control the rendered images.
+  must travel with the page). The images are preloaded, so hovering does
+  not flicker.
+* `initial = "first"` shows the first step's image before any
+  interaction; the default `"last"` shows the finished plot. A step
+  number also works.
+* `width`, `height` (inches) and `dpi` control the rendered images. They
+  also reserve the image box, so the page does not reflow while stepping
+  through the table.
+* A step that cannot be rendered on its own (for example `after_stat()`
+  in the global `aes()` before any geom exists) produces a blank image
+  and a message naming the step, instead of aborting the table.
 
 # When to use the manual API
 

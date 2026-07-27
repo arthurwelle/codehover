@@ -6,8 +6,8 @@
 \usage{
 ch_hover(
   code,
-  type = "incremental",
-  layout = "auto",
+  type = c("incremental", "one_row"),
+  layout = c("auto", "row", "column"),
   fixed_scales = FALSE,
   width = 7,
   height = 5,
@@ -15,6 +15,9 @@ ch_hover(
   path = NULL,
   name = "codehover",
   css_class = "",
+  alt = NULL,
+  caption = NULL,
+  initial = "last",
   env = parent.frame()
 )
 }
@@ -22,8 +25,8 @@ ch_hover(
 \item{code}{The plot code. Either an expression wrapped in braces, as
 in the example below, or a character string/vector of code lines.}
 
-\item{type}{(string) Hover effect: "incremental" (highlights the hovered
-row and every prior row) or "one_row". Default "incremental".}
+\item{type}{(string) Hover effect: "incremental" (default, highlights
+the hovered row and every prior row) or "one_row".}
 
 \item{layout}{(string) Placement of the image relative to the code table:
 "auto" (default) puts them side by side when there is room and wraps
@@ -52,6 +55,15 @@ HTML, but the folder must ship with the page).}
 
 \item{css_class}{(string) Extra CSS class added to the container.}
 
+\item{alt}{(character) Alternative text for the step images, used by
+screen readers. Either one string per step or a single string reused
+by every step. Default NULL builds "Plot after step i of n: <code>".}
+
+\item{caption}{(string) Optional caption shown under the image.}
+
+\item{initial}{(string or number) Which step's image is shown before any
+interaction: "last" (default), "first" or a step number.}
+
 \item{env}{Environment in which the code is evaluated. Default
 `parent.frame()`.}
 }
@@ -67,12 +79,12 @@ Takes ggplot code, splits it at every top-level `+`,
   the plot as it looks up to that step.
 }
 \examples{
-\dontrun{
-ch_hover({
-  ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
-    ggplot2::geom_point() +
-    ggplot2::geom_smooth(method = "lm")
-})
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  ch_hover({
+    ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
+      ggplot2::geom_point() +
+      ggplot2::geom_smooth(method = "lm")
+  })
 }
 
 }

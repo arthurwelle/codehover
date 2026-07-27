@@ -2,16 +2,17 @@ Package: codehover
 Type: Package
 Title: Hoverable HTML Tables That Reveal ggplot Code Step by Step
 Version: 1.0.0
-Author: Arthur Welle
-Maintainer: Arthur Welle <arthurwelle@gmail.com>
+Authors@R:
+    person("Arthur", "Welle", email = "arthurwelle@gmail.com",
+           role = c("aut", "cre", "cph"))
 Description: Creates interactive HTML tables where each row is a step of
     code and hovering a row shows the corresponding image. The main entry
     point ch_hover() takes ggplot code, splits it automatically at every
     top-level '+', renders one image per step and returns a self-contained
     HTML object (CSS and JavaScript included) that works in R Markdown,
-    Quarto and the RStudio viewer. A low-level API (ch_int(), ch_row(),
-    ch_out()) remains available for hand-built tables with arbitrary
-    images and pseudo-code.
+    Quarto and the RStudio viewer. Rows also respond to tap and keyboard
+    navigation. A low-level API (ch_int(), ch_row(), ch_out()) remains
+    available for hand-built tables with arbitrary images and pseudo-code.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -22,7 +23,9 @@ Imports:
 Suggests:
     ggplot2,
     ragg,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 URL: https://github.com/arthurwelle/codehover
 BugReports: https://github.com/arthurwelle/codehover/issues
 VignetteBuilder: knitr

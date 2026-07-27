@@ -8,8 +8,8 @@
 #'
 #' @param code The plot code. Either an expression wrapped in braces, as
 #'   in the example below, or a character string/vector of code lines.
-#' @param type (string) Hover effect: "incremental" (highlights the hovered
-#'   row and every prior row) or "one_row". Default "incremental".
+#' @param type (string) Hover effect: "incremental" (default, highlights
+#'   the hovered row and every prior row) or "one_row".
 #' @param layout (string) Placement of the image relative to the code table:
 #'   "auto" (default) puts them side by side when there is room and wraps
 #'   the image below otherwise (responsive); "row" forces side by side,
@@ -30,6 +30,12 @@
 #' @param name (string) File-name prefix for the step images. Default
 #'   "codehover".
 #' @param css_class (string) Extra CSS class added to the container.
+#' @param alt (character) Alternative text for the step images, used by
+#'   screen readers. Either one string per step or a single string reused
+#'   by every step. Default NULL builds "Plot after step i of n: <code>".
+#' @param caption (string) Optional caption shown under the image.
+#' @param initial (string or number) Which step's image is shown before any
+#'   interaction: "last" (default), "first" or a step number.
 #' @param env Environment in which the code is evaluated. Default
 #'   `parent.frame()`.
 #'
@@ -37,18 +43,18 @@
 #'   Quarto and the RStudio viewer.
 #'
 #' @examples
-#' \dontrun{
-#' ch_hover({
-#'   ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
-#'     ggplot2::geom_point() +
-#'     ggplot2::geom_smooth(method = "lm")
-#' })
+#' if (requireNamespace("ggplot2", quietly = TRUE)) {
+#'   ch_hover({
+#'     ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
+#'       ggplot2::geom_point() +
+#'       ggplot2::geom_smooth(method = "lm")
+#'   })
 #' }
 #'
 #' @export
 ch_hover <- function(code,
-                     type = "incremental",
-                     layout = "auto",
+                     type = c("incremental", "one_row"),
+                     layout = c("auto", "row", "column"),
                      fixed_scales = FALSE,
                      width = 7,
                      height = 5,
@@ -56,7 +62,13 @@ ch_hover <- function(code,
                      path = NULL,
                      name = "codehover",
                      css_class = "",
+                     alt = NULL,
+                     caption = NULL,
+                     initial = "last",
                      env = parent.frame()) {
+
+  type <- match.arg(type)
+  layout <- match.arg(layout)
 
   code_sub <- substitute(code)
   lines <- ch_resolve_code(code, code_sub)
@@ -69,17 +81,63 @@ ch_hover <- function(code,
                           path = path, name = name)
 
   use_url <- !is.null(path)
+  alts <- ch_step_alt(steps, alt)
+  first <- ch_initial_index(initial, length(steps))
 
   html <- ch_int(type = type, layout = layout, css_class = css_class)
   for (i in seq_along(steps)) {
     html <- ch_row(html, text = ch_format_step(steps[[i]]$lines),
-                   img = imgs[i], url = use_url)
+                   img = imgs[i], url = use_url, alt = alts[i])
   }
-  out <- ch_out(html, img = imgs[length(imgs)], url = use_url)
+  out <- ch_out(html, img = imgs[first], url = use_url, alt = alts[first],
+                aspect = c(width, height), caption = caption,
+                preload = if (use_url) imgs else NULL)
 
   if (is.null(path)) unlink(imgs)
 
   out
+}
+
+
+# alternative text for each step's image
+ch_step_alt <- function(steps, alt) {
+
+  n <- length(steps)
+
+  if (!is.null(alt)) {
+    if (length(alt) == 1) return(rep(alt, n))
+    if (length(alt) != n) {
+      stop("`alt` must have one element per step (", n, ") or exactly one.",
+           call. = FALSE)
+    }
+    return(alt)
+  }
+
+  vapply(seq_len(n), function(i) {
+    last_line <- trimws(steps[[i]]$lines[length(steps[[i]]$lines)])
+    paste0("Plot after step ", i, " of ", n, ": ", last_line)
+  }, character(1))
+}
+
+
+# resolve the `initial` argument into a step index
+ch_initial_index <- function(initial, n) {
+
+  if (is.numeric(initial)) {
+    idx <- as.integer(initial)
+    if (length(idx) != 1 || is.na(idx) || idx < 1 || idx > n) {
+      stop("`initial` must be \"first\", \"last\" or a step number between 1 and ",
+           n, ".", call. = FALSE)
+    }
+    return(idx)
+  }
+
+  switch(initial,
+    last  = n,
+    first = 1L,
+    stop("`initial` must be \"first\", \"last\" or a step number.",
+         call. = FALSE)
+  )
 }
 
 
@@ -193,6 +251,7 @@ ch_render_steps <- function(plots, fixed_scales, width, height, dpi,
   }
 
   has_ragg <- requireNamespace("ragg", quietly = TRUE)
+  failed <- integer(0)
 
   for (i in seq_len(n)) {
     if (has_ragg) {
@@ -214,9 +273,13 @@ ch_render_steps <- function(plots, fixed_scales, width, height, dpi,
       # A step may legitimately fail on its own (e.g. after_stat() in the
       # global aes when no geom has been added yet).  Draw a blank page so
       # the table still renders; the image for that row will be empty.
+      failed[[length(failed) + 1L]] <<- i
+      message("codehover: step ", i, " cannot be rendered on its own (",
+              conditionMessage(e), "). Its image will be blank.")
       grid::grid.newpage()
     }, finally = grDevices::dev.off())
   }
 
+  attr(files, "failed") <- failed
   files
 }

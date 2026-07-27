@@ -1,0 +1,35 @@
+url: https://arthurwelle.github.io/codehover/
+
+template:
+  bootstrap: 5
+
+reference:
+- title: Automatic mode
+  desc: >
+    Give it ggplot code and get a hoverable table back. This is what most
+    users need.
+  contents:
+  - ch_hover
+  - ch_hover_chunk
+
+- title: Manual mode
+  desc: >
+    Building blocks for hand-made tables with arbitrary images and
+    pseudo-code.
+  contents:
+  - ch_int
+  - ch_row
+  - ch_out
+
+- title: Assets
+  contents:
+  - ch_dependency
+
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - codehover_automatic
+  - codehover_intro
+  - codehover_data_wrangling
+  - codehover_map_example

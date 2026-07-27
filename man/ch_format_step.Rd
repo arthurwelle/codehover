@@ -14,7 +14,7 @@ A single HTML string.
 }
 \description{
 HTML-escapes the code, converts leading spaces to
-  `<tabN>` indentation tags (one level per two spaces) and joins
-  lines with `<br>`.
+  `<span class="ch-tabN">` indentation (one level per two spaces) and
+  joins lines with `<br>`.
 }
 \keyword{internal}

@@ -9,6 +9,10 @@ ch_out(
   img = "",
   css_class = "",
   url = FALSE,
+  alt = "codehover plot",
+  aspect = NULL,
+  preload = NULL,
+  caption = NULL,
   img_tag_add = "",
   div_tag_add = "",
   ...
@@ -24,6 +28,20 @@ if `url = TRUE`.}
 
 \item{url}{(logical) Default FALSE, which embeds the image into the HTML
 as base64. TRUE writes the path/URL as-is.}
+
+\item{alt}{(string) Alternative text of the image holder. Default
+"codehover plot"; rows can override it while they are active via the
+`alt` argument of [ch_row()].}
+
+\item{aspect}{(numeric, length 2) Width and height used to reserve the
+image box (`aspect-ratio` in CSS), so the page does not reflow when a
+hovered image loads. Default NULL leaves it to the browser.}
+
+\item{preload}{(character) Image URLs to fetch up front, so hovering a
+row does not flicker while the file downloads. Only meaningful when
+`url = TRUE` (base64 images are already in the page).}
+
+\item{caption}{(string) Optional caption shown under the image.}
 
 \item{img_tag_add}{(string) Additional HTML attributes for the `<img>`
 tag.}
@@ -42,4 +60,10 @@ Closes the table, adds the image holder and attaches the
   codehover CSS/JavaScript dependency. The result renders as-is in
   R Markdown, Quarto and the RStudio viewer -- no template or YAML
   set-up needed.
+}
+\examples{
+ch_out(ch_row(ch_int(), text = "geom_point()", img = "step-1.png",
+              url = TRUE),
+       img = "step-1.png", url = TRUE, alt = "scatter plot")
+
 }

@@ -16,7 +16,7 @@ library(codehover)
 
 
 
-# codehover <img src="https://raw.githubusercontent.com/arthurwelle/codehover/master/HexSticker/HexSticker.png" align="right" width="250" />
+# codehover <img src="https://raw.githubusercontent.com/arthurwelle/codehover/master/HexSticker/HexSticker.png" alt="codehover hex sticker" align="right" width="250" />
 
 <!-- badges: start -->
 <!-- badges: end -->

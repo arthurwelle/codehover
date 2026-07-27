@@ -5,8 +5,8 @@
 \title{codehover initiate table}
 \usage{
 ch_int(
-  type = "incremental",
-  layout = "auto",
+  type = c("incremental", "one_row"),
+  layout = c("auto", "row", "column"),
   css_class = "",
   table_tag_add = "",
   div_tag_add = "",
@@ -14,9 +14,8 @@ ch_int(
 )
 }
 \arguments{
-\item{type}{(string) Type of hover effect, "one_row" or "incremental";
-the latter highlights the hovered row and every prior row.
-Default "incremental".}
+\item{type}{(string) Type of hover effect, "incremental" (default,
+highlights the hovered row and every prior row) or "one_row".}
 
 \item{layout}{(string) Placement of the image relative to the code table:
 "auto" (default) puts them side by side when there is room and wraps
@@ -44,4 +43,8 @@ Starts a codehover HTML table. This is the low-level
   building-block API: use it when you want full control over the row
   text and the images (any images, any pseudo-code). For automatic
   splitting of ggplot code, see [ch_hover()].
+}
+\examples{
+ch_int(type = "one_row", layout = "column")
+
 }
