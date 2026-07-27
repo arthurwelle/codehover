@@ -63,6 +63,12 @@ test_that("the shipped assets are complete", {
   expect_true(file.exists(css))
   expect_true(file.exists(js))
 
+  css_src <- paste(readLines(css, warn = FALSE), collapse = "\n")
+  # the highlight must survive Bootstrap's `.table`, which paints every
+  # cell with its own background and an inset box-shadow
+  expect_match(css_src, ".codehover tr.hover > td", fixed = TRUE)
+  expect_match(css_src, "--codehover-highlight: #F1D95A", fixed = TRUE)
+
   js_src <- readLines(js, warn = FALSE)
   # hover, tap and keyboard must all be wired up
   expect_true(any(grepl('"mouseover"', js_src, fixed = TRUE)))

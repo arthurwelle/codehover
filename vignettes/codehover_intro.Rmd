@@ -23,7 +23,7 @@ library(codehover)
 
 Pipes are an excellent way to code. They make it easy to follow the code chain of transformations and their results. 
 
-The codehover aims to make it easy to create a HTML table with a simple hover effect (JavaScript/JQuery + CSS) that shows images just bellow the said table. 
+The codehover aims to make it easy to create a HTML table with a simple hover effect (plain CSS and JavaScript, bundled with the package) that shows images beside or below the said table. Rows also react to tap and to the keyboard, so the result works on a phone and for keyboard users too.
 
 This way one could set up pseudo-lines of code (show as text) in the table and a series of images showing the intermediate results of the code with a hovering interaction. 
 
@@ -41,11 +41,9 @@ install.packages("devtools")
 devtools::install_github("arthurwelle/codehover")
 ```
 
-After installation a new <a href="https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html">RMarkdown Template</a> shoud be available for you (File -> New File -> R Markdown -> From Template -> codehover). You should use this RMarkdown template in order to work with codehover because it loads the JavaScript/JQuery and the CSS necessary for its tasks. 
+Since version 1.0.0 no set-up is needed: the object returned by `ch_out()` (and by `ch_hover()`) carries its own CSS and JavaScript as an `htmltools` dependency, so it renders in any R Markdown or Quarto document -- and in the RStudio viewer -- and the knitted HTML is self-contained.
 
-Most of the times, as happnes with all new templates, after installation the template won't show up in the menu right away. If this is the case, restart RStudio, it should come up then.
-
-Every time you create a new codehover RMarkdown from template a folder will be created with the CSS and JavaScript files inside. They are needed to run the codehover properly, but once you have your final knitted file the CSS and the JavaScript will be attached to the HTML file, thus becoming self-contained. 
+Two <a href="https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html">RMarkdown Templates</a> are installed with the package as a starting point (File -> New File -> R Markdown -> From Template): **codehover** for the automatic mode and **codehover-manual** for the hand-built tables shown below. They are convenience only -- a plain .Rmd works just as well. As with any new template, it may take an RStudio restart to show up in the menu.
 
 # Workflow example
 
@@ -115,7 +113,7 @@ Note that the code (the pseudo-code as text) use some &lt;tabs> and &amp;nbsp; f
 
 Finally you show close the table with the function ``ch_out``. Here you can indicate another image to be show before any hover interaction, as well as to pass another CSS class to the image holder to control its size and placement in the page.
 
-With these three codehover functions you create an object (in fact just a text string) that ``htmltool::HMTL()`` function can inject in the HTML page. 
+With these three functions you create an object that is already renderable -- its CSS and JavaScript come attached -- so you just print it. (Up to version 0.0.1 the result was a plain string that had to be passed through ``htmltools::HTML()``; that step is gone.) ``ch_out()`` also takes ``alt =`` for the image's alternative text, ``caption =`` and ``aspect =``.
 
 
 ```{r, echo=TRUE}
@@ -173,39 +171,26 @@ And to proper indent your text, as you would like to do to a code, you can use t
 
 &amp;emsp; = it is equal to four &amp;nbsp;
 
-Alternatively the codehover CSS has the tags &lt;tab1> to &lt;tab16> to denote 1 to 16 tabs (each tab is 4 spaces). To use it you have to enclose the text in those tags. For example:
+Alternatively the codehover CSS has the classes `ch-tab1` to `ch-tab16` to denote 1 to 16 indentation levels (each level is `--codehover-tab`, 2em by default). To use them you enclose the text in a span. For example:
 
-ch_row(text = "&lt;tab7>theme_bw()&lt;/tab7>")
+ch_row(text = "&lt;span class='ch-tab7'>theme_bw()&lt;/span>")
 
-
-# JQuery/Javascript
-
-For reference here is the JavaScript/JQuery code for the hover effects (incremental and single row).
+The bare &lt;tab1> ... &lt;tab16> tags used up to version 0.0.1 are still styled, so older documents keep working.
 
 
-```{r, eval=FALSE, as.is=TRUE}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+# Under the hood
 
-<script>
-$('.pipehover_incremental tr').hover(function() {
-  $(this).removeClass()
-  $(this).prevAll().removeClass()
-  $(this).nextAll().removeClass()
-  $(this).addClass('hover');
-  $(this).prevAll().addClass('hover');
-  $(this).closest('div').next().find('img').attr("src", $(this).attr("link"));
-});
+There is no jQuery and no script to copy any more. Each row is written as `<tr data-link="...">`, and the vanilla JavaScript shipped inside the package (`inst/assets/codehover.js`, attached automatically) listens for hover, tap, focus and arrow keys, then swaps the `src` of the image holder. Everything is scoped under the `.codehover` class, so it cannot collide with the rest of your page.
 
+You can restyle it with the CSS custom properties exposed by the package:
 
-$('.pipehover_select_one_row tr').hover(function() {
-  $(this).removeClass()
-  $(this).prevAll().removeClass()
-  $(this).nextAll().removeClass()
-  $(this).addClass('hover');
-  $(this).closest('div').next().find('img').attr("src", $(this).attr("link"));
-});
-
-</script>
+```css
+.codehover {
+  --codehover-highlight: #F1D95A;   /* row highlight             */
+  --codehover-font: monospace;      /* code font                 */
+  --codehover-font-size: 0.9em;
+  --codehover-tab: 2em;             /* width of one indent level */
+}
 ```
 
 # Reference

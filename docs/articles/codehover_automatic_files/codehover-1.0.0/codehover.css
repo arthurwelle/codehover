@@ -21,11 +21,16 @@
   margin: 1rem 0;
 }
 
+/* The highlight stays yellow in a dark page; only the text on top of it
+   is darkened so it keeps contrast. */
 @media (prefers-color-scheme: dark) {
   .codehover {
-    --codehover-highlight: #6b5a12;
-    --codehover-highlight-fg: #fff;
+    --codehover-highlight-fg: #1a1a1a;
   }
+}
+
+:root[data-bs-theme="dark"] .codehover {
+  --codehover-highlight-fg: #1a1a1a;
 }
 
 .codehover .codehover-code {
@@ -74,11 +79,18 @@
 .codehover td {
   padding: var(--codehover-row-padding);
   border: none;
+  /* Bootstrap's `.table` (pandoc and pkgdown add that class) paints every
+     cell with --bs-table-bg plus an inset box-shadow, which would cover
+     the row highlight. Let the row show through. */
+  background-color: transparent;
+  box-shadow: none;
 }
 
-.codehover tr.hover {
+.codehover tr.hover,
+.codehover tr.hover > td {
   background-color: var(--codehover-highlight);
   color: var(--codehover-highlight-fg);
+  box-shadow: none;
 }
 
 .codehover tr[data-link]:focus-visible {

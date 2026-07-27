@@ -77,8 +77,10 @@
 <p>Pipes are an excellent way to code. They make it easy to follow the
 code chain of transformations and their results.</p>
 <p>The codehover aims to make it easy to create a HTML table with a
-simple hover effect (JavaScript/JQuery + CSS) that shows images just
-bellow the said table.</p>
+simple hover effect (plain CSS and JavaScript, bundled with the package)
+that shows images beside or below the said table. Rows also react to tap
+and to the keyboard, so the result works on a phone and for keyboard
+users too.</p>
 <p>This way one could set up pseudo-lines of code (show as text) in the
 table and a series of images showing the intermediate results of the
 code with a hovering interaction.</p>
@@ -105,20 +107,19 @@ github:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"arthurwelle/codehover"</span><span class="op">)</span></span></code></pre></div>
-<p>After installation a new
+<p>Since version 1.0.0 no set-up is needed: the object returned by
+<code><a href="../reference/ch_out.html">ch_out()</a></code> (and by <code><a href="../reference/ch_hover.html">ch_hover()</a></code>) carries its own
+CSS and JavaScript as an <code>htmltools</code> dependency, so it
+renders in any R Markdown or Quarto document – and in the RStudio viewer
+– and the knitted HTML is self-contained.</p>
+<p>Two
 <a href="https://rstudio.github.io/rstudio-extensions/rmarkdown_templates.html" class="external-link">RMarkdown
-Template</a> shoud be available for you (File -&gt; New File -&gt; R
-Markdown -&gt; From Template -&gt; codehover). You should use this
-RMarkdown template in order to work with codehover because it loads the
-JavaScript/JQuery and the CSS necessary for its tasks.</p>
-<p>Most of the times, as happnes with all new templates, after
-installation the template won’t show up in the menu right away. If this
-is the case, restart RStudio, it should come up then.</p>
-<p>Every time you create a new codehover RMarkdown from template a
-folder will be created with the CSS and JavaScript files inside. They
-are needed to run the codehover properly, but once you have your final
-knitted file the CSS and the JavaScript will be attached to the HTML
-file, thus becoming self-contained.</p>
+Templates</a> are installed with the package as a starting point (File
+-&gt; New File -&gt; R Markdown -&gt; From Template):
+<strong>codehover</strong> for the automatic mode and
+<strong>codehover-manual</strong> for the hand-built tables shown below.
+They are convenience only – a plain .Rmd works just as well. As with any
+new template, it may take an RStudio restart to show up in the menu.</p>
 </div>
 </div>
 <div class="section level2">
@@ -201,9 +202,12 @@ that bellow.</p>
 <code>ch_out</code>. Here you can indicate another image to be show
 before any hover interaction, as well as to pass another CSS class to
 the image holder to control its size and placement in the page.</p>
-<p>With these three codehover functions you create an object (in fact
-just a text string) that <code>htmltool::HMTL()</code> function can
-inject in the HTML page.</p>
+<p>With these three functions you create an object that is already
+renderable – its CSS and JavaScript come attached – so you just print
+it. (Up to version 0.0.1 the result was a plain string that had to be
+passed through <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">htmltools::HTML()</a></code>; that step is gone.)
+<code><a href="../reference/ch_out.html">ch_out()</a></code> also takes <code>alt =</code> for the image’s
+alternative text, <code>caption =</code> and <code>aspect =</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ch_int.html">ch_int</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"incremental"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -271,39 +275,34 @@ you can use the HTML non-breaking spaces.</p>
 <p>&amp;nbsp; a single non-breaking space;</p>
 <p>&amp;ensp; = it is equal to two &amp;nbsp;</p>
 <p>&amp;emsp; = it is equal to four &amp;nbsp;</p>
-<p>Alternatively the codehover CSS has the tags &lt;tab1&gt; to
-&lt;tab16&gt; to denote 1 to 16 tabs (each tab is 4 spaces). To use it
-you have to enclose the text in those tags. For example:</p>
-<p>ch_row(text = “&lt;tab7&gt;theme_bw()&lt;/tab7&gt;”)</p>
+<p>Alternatively the codehover CSS has the classes <code>ch-tab1</code>
+to <code>ch-tab16</code> to denote 1 to 16 indentation levels (each
+level is <code>--codehover-tab</code>, 2em by default). To use them you
+enclose the text in a span. For example:</p>
+<p>ch_row(text = “&lt;span
+class=‘ch-tab7’&gt;theme_bw()&lt;/span&gt;”)</p>
+<p>The bare &lt;tab1&gt; … &lt;tab16&gt; tags used up to version 0.0.1
+are still styled, so older documents keep working.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="jqueryjavascript">JQuery/Javascript<a class="anchor" aria-label="anchor" href="#jqueryjavascript"></a>
+<h2 id="under-the-hood">Under the hood<a class="anchor" aria-label="anchor" href="#under-the-hood"></a>
 </h2>
-<p>For reference here is the JavaScript/JQuery code for the hover
-effects (incremental and single row).</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>script src<span class="ot">=</span><span class="st">"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"</span><span class="sc">&gt;</span><span class="er">&lt;/</span>script<span class="sc">&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>script<span class="sc">&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="er">$</span>(<span class="st">'.pipehover_incremental tr'</span>)<span class="fu">.hover</span>(<span class="cf">function</span>() {</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.removeClass</span>()</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.prevAll</span>()<span class="fu">.removeClass</span>()</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.nextAll</span>()<span class="fu">.removeClass</span>()</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.addClass</span>(<span class="st">'hover'</span>);</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.prevAll</span>()<span class="fu">.addClass</span>(<span class="st">'hover'</span>);</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.closest</span>(<span class="st">'div'</span>)<span class="fu">.next</span>()<span class="fu">.find</span>(<span class="st">'img'</span>)<span class="fu">.attr</span>(<span class="st">"src"</span>, <span class="sc">$</span>(this)<span class="fu">.attr</span>(<span class="st">"link"</span>));</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>});</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span>(<span class="st">'.pipehover_select_one_row tr'</span>)<span class="fu">.hover</span>(<span class="cf">function</span>() {</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.removeClass</span>()</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.prevAll</span>()<span class="fu">.removeClass</span>()</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.nextAll</span>()<span class="fu">.removeClass</span>()</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.addClass</span>(<span class="st">'hover'</span>);</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="sc">$</span>(this)<span class="fu">.closest</span>(<span class="st">'div'</span>)<span class="fu">.next</span>()<span class="fu">.find</span>(<span class="st">'img'</span>)<span class="fu">.attr</span>(<span class="st">"src"</span>, <span class="sc">$</span>(this)<span class="fu">.attr</span>(<span class="st">"link"</span>));</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>});</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span><span class="er">/</span>script<span class="sc">&gt;</span></span></code></pre></div>
+<p>There is no jQuery and no script to copy any more. Each row is
+written as <code>&lt;tr data-link="..."&gt;</code>, and the vanilla
+JavaScript shipped inside the package
+(<code>inst/assets/codehover.js</code>, attached automatically) listens
+for hover, tap, focus and arrow keys, then swaps the <code>src</code> of
+the image holder. Everything is scoped under the <code>.codehover</code>
+class, so it cannot collide with the rest of your page.</p>
+<p>You can restyle it with the CSS custom properties exposed by the
+package:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.codehover</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">--codehover-highlight</span>: <span class="cn">#F1D95A</span><span class="op">;</span>   <span class="co">/* row highlight             */</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="va">--codehover-font</span>: <span class="dv">monospace</span><span class="op">;</span>      <span class="co">/* code font                 */</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">--codehover-font-size</span>: <span class="dv">0.9</span><span class="dt">em</span><span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">--codehover-tab</span>: <span class="dv">2</span><span class="dt">em</span><span class="op">;</span>             <span class="co">/* width of one indent level */</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
